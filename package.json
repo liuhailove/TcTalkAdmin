@@ -9,10 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "autoprefixer": "^10.4.20",
     "axios": "^1.7.5",
+    "css-loader": "^0.28.0",
     "echarts": "4.2.0-rc.2",
-    "element-ui": "^2.3.7",
+    "element-plus": "^2.8.1",
+    "file-loader": "^1.1.4",
     "js-cookie": "^2.2.0",
+    "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "v-charts": "^1.19.0",
     "v-distpicker": "^1.0.20",
