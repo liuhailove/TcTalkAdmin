@@ -120,7 +120,6 @@ const handleLogin = () => {
   loginFormRef.value.validate((valid) => {
     if (valid) {
       loading.value = true;
-
       login(loginForm.value)
           .then(() => {
             loading.value = false;

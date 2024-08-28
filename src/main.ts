@@ -8,7 +8,7 @@ import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 import {createPinia} from 'pinia';
 
-// import '@/styles/index.scss'; // global css
+import '@/styles/index.scss'; // global css
 
 // 使用 es 目录导入语言包
 import locale from 'element-plus/es/locale/lang/zh-cn';
