@@ -77,6 +77,8 @@ import {useRouter} from "vue-router";
 import {UserInfo} from "@/model/user_info.ts";
 import {userStore} from "@/store/user_store.ts";
 import SvgIcon from "@/components/SvgIcon/Index.vue";
+import * as CryptoJS from 'crypto-js';
+
 // 设置token值
 const {login} = userStore();
 const router = useRouter()
@@ -120,11 +122,12 @@ const handleLogin = () => {
   loginFormRef.value.validate((valid) => {
     if (valid) {
       loading.value = true;
-      login(loginForm.value)
+      let password = CryptoJS.MD5(loginForm.value.password).toString();
+      login({username: loginForm.value.username, password: password})
           .then(() => {
             loading.value = false;
             setCookie('username', loginForm.value.username, 15);
-            setCookie('password', loginForm.value.password, 15);
+            setCookie('password', password, 15);
             router.push({path: '/'});
           })
           .catch(() => {

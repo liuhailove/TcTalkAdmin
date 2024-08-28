@@ -16,6 +16,11 @@ const router = createRouter({
             path: '/404',
             name: Pages.notFound,
             component: () => import("@/views/404.vue"),
+        },
+        {
+            path: '/',
+            name: Pages.home,
+            component: () => import("@/views/Index.vue"),
         }
     ],
 });
