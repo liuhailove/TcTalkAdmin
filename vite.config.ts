@@ -1,7 +1,33 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import {defineConfig} from 'vite';
+import vue from '@vitejs/plugin-vue';
+import {fileURLToPath, URL} from 'url';
+
+import {createSvgIconsPlugin} from 'vite-plugin-svg-icons';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+    plugins: [
+        vue(),
+        createSvgIconsPlugin({
+            // 指定 SVG 目录
+            iconDirs: [path.resolve(process.cwd(), 'src/icons/svg')],
+            // 生成符号
+            symbolId: '#icon-[name]',
+        }),
+    ],
+    resolve: {
+        alias: {
+            '@': fileURLToPath(new URL('./src', import.meta.url)),
+        }
+    },
+    server: {
+        port: 3005,
+        proxy: {
+            '/admin_api': {
+                target: 'http://localhost:9000',
+                changeOrigin: true,
+            },
+        },
+    },
 })

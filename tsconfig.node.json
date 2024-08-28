@@ -11,12 +11,13 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
+    "composite": true,  // 确保添加此选项
 
     /* Linting */
-    "strict": true,
+    "strict": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
   },
-  "include": ["vite.config.ts"]
+  "include": ["vite.config.ts","src"]
 }

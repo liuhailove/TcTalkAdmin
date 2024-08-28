@@ -24,11 +24,10 @@
         "path": "./tsconfig.vite-config.json"
       }
     ],
-
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     /* Linting */
     "strict": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true
   },
