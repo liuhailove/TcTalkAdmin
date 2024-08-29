@@ -1,4 +1,5 @@
 import http from "@/utils/http.ts";
+import {Menu} from "../model/menu.ts";
 
 export async function useLogin(username: string, password: string) {
     return await http.post<{
@@ -11,42 +12,47 @@ export async function useLogin(username: string, password: string) {
     }>("admin_api/admin/login", {username: username, password: password})
 }
 
-export async function getInfo() {
+export async function useGetInfo() {
     return await http.get<{
         code: number,
-        cookie: string,
-        token: string,
+        message: string,
+        data: {
+            username: string,
+            icon: string,
+            menus: Array<Menu>,
+            roles: Array<string>
+        },
     }>("admin_api/admin_info");
 }
 
-export async function logout() {
+export async function useLogout() {
     return await http.post<{}>("admin_api/admin/logout", {});
 }
 
-export async function fetchList(params: any) {
+export async function useFetchList(params: any) {
     return await http.get<{}>("admin_api/admin/list", {params: params});
 }
 
-export async function createAdmin(data: any) {
+export async function useCreateAdmin(data: any) {
     return await http.post<{}>("admin_api/admin/register", data);
 }
 
-export async function updateAdmin(id, data: any) {
+export async function useUpdateAdmin(id, data: any) {
     return await http.post<{}>("admin_api/admin/update" + id, data);
 }
 
-export async function updateStatus(id, params: any) {
+export async function useUpdateStatus(id, params: any) {
     return await http.post<{}>("admin_api/admin/updateStatus" + id, params);
 }
 
-export async function deleteAdmin(id: string) {
+export async function useDeleteAdmin(id: string) {
     return await http.post<{}>("admin_api/admin/delete" + id);
 }
 
-export async function getRoleByAdminId(id: string) {
+export async function useGetRoleByAdminId(id: string) {
     return await http.get<{}>("admin_api/admin/role/" + id);
 }
 
-export async function allocRole(data: any) {
+export async function useAllocRole(data: any) {
     return await http.post<{}>("admin_api/admin/role/update", data);
 }

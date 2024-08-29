@@ -14,12 +14,16 @@ import '@/styles/index.scss'; // global css
 import locale from 'element-plus/es/locale/lang/zh-cn';
 import SvgIcon from '@/components/SvgIcon/Index.vue'; // svg组件
 import "virtual:svg-icons-register";
+import initPermission from '@/permission' ;
+
 
 const app = createApp(App);
 app.use(ElementPlus, {locale});
-app.use(createPinia());
-app.use(router);
+const pinia = createPinia();
 
+app.use(pinia);
+initPermission(pinia);
+app.use(router);
 // 全局注册 SvgIcon 组件
 app.component('SvgIcon', SvgIcon);
 // // 使用 Vite 的 import.meta.glob 动态导入所有的 svg 文件
@@ -29,7 +33,7 @@ app.component('SvgIcon', SvgIcon);
 //         svgRequire[key]();
 //     }
 // );
-
+// 权限控制
 app.mount('#app')
 
 

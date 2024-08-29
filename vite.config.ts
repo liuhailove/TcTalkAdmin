@@ -4,6 +4,7 @@ import {fileURLToPath, URL} from 'url';
 
 import {createSvgIconsPlugin} from 'vite-plugin-svg-icons';
 import path from 'path';
+// import {svgBuilder} from "./loader_svg";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,6 +16,7 @@ export default defineConfig({
             // 生成符号
             symbolId: '#icon-[name]',
         }),
+        // svgBuilder("src/icons/svg/"),
     ],
     resolve: {
         alias: {

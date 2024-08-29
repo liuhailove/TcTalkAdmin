@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <el-card class="login-form-layout">
       <el-form aria-autocomplete="inline"
                :model="loginForm"
@@ -75,12 +74,12 @@ import {ref} from "vue";
 import {setCookie, setSupport} from "@/utils/support.ts";
 import {useRouter} from "vue-router";
 import {UserInfo} from "@/model/user_info.ts";
-import {userStore} from "@/store/user_store.ts";
+import {useUserStore} from "@/store/user_store.ts";
 import SvgIcon from "@/components/SvgIcon/Index.vue";
 import * as CryptoJS from 'crypto-js';
 
 // 设置token值
-const {login} = userStore();
+const {login} = useUserStore();
 const router = useRouter()
 const loginForm = ref<UserInfo>({
   username: '',

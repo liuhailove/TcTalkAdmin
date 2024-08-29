@@ -2,8 +2,10 @@ import {defineStore} from "pinia";
 import {getToken, setToken} from "@/api/auth.ts";
 import {useLogin} from "@/api/login.ts";
 import {UserInfo} from "@/model/user_info.ts";
+import {useGetInfo, useLogout} from "../api/login.ts";
+import {removeToken} from "../api/auth.ts";
 
-export const userStore = defineStore("userStore", {
+export const useUserStore = defineStore("userStore", {
     state: () => {
         return {
             token: getToken(),
@@ -42,5 +44,48 @@ export const userStore = defineStore("userStore", {
                 return Promise.reject(error);
             }
         },
+
+        // 获取用户信息
+        async getInfo() {
+            try {
+                const {data} = await useGetInfo();
+                // 验证返回的roles是否是一个非空数组
+                if (data.roles && data.roles.length > 0) {
+                    this.setRoles(data.roles);
+                } else {
+                    return Promise.reject("getInfo: roles 必需是非空数组");
+                }
+                this.setName(data.username);
+                this.setAvatar(data.icon);
+                return Promise.resolve();
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+
+        // 登出
+        async logOut() {
+            try {
+                await useLogout();
+                this.setToken("");
+                this.setRoles([]);
+                removeToken();
+                return Promise.resolve();
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        },
+
+        // 前端 登出
+        async fedLogout() {
+            try {
+                this.setToken("");
+                this.setRoles([]);
+                removeToken();
+                return Promise.resolve();
+            } catch (error) {
+                return Promise.reject(error);
+            }
+        }
     }
 });
