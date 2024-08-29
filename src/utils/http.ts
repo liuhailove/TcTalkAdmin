@@ -1,4 +1,6 @@
 import axios, {type AxiosRequestConfig} from "axios";
+import {getToken} from "@/api/auth.ts";
+
 axios.defaults.timeout = 20 * 1000;
 axios.defaults.maxBodyLength = 5 * 1024 * 1024;
 axios.defaults.withCredentials = true
@@ -8,7 +10,7 @@ axios.interceptors.request.use(
         // 添加 CORS 头部信息
         config.headers['Access-Control-Allow-Origin'] = '*';
         config.headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS';
-        config.headers['Authorization'] = 'Bearer ' + localStorage.getItem('TC_TOKEN');
+        config.headers['Authorization'] = getToken();
         config.params = {
             ...config.params,
             t: Date.now(),

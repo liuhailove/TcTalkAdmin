@@ -22,7 +22,7 @@ export async function useGetInfo() {
             menus: Array<Menu>,
             roles: Array<string>
         },
-    }>("admin_api/admin_info");
+    }>("admin_api/admin/info");
 }
 
 export async function useLogout() {

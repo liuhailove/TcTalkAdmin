@@ -47,20 +47,17 @@ export const useUserStore = defineStore("userStore", {
 
         // 获取用户信息
         async getInfo() {
-            try {
-                const {data} = await useGetInfo();
-                // 验证返回的roles是否是一个非空数组
-                if (data.roles && data.roles.length > 0) {
-                    this.setRoles(data.roles);
-                } else {
-                    return Promise.reject("getInfo: roles 必需是非空数组");
-                }
-                this.setName(data.username);
-                this.setAvatar(data.icon);
-                return Promise.resolve();
-            } catch (error) {
-                return Promise.reject(error);
+            const {data} = await useGetInfo();
+            // 验证返回的roles是否是一个非空数组
+            if (data.roles && data.roles.length > 0) {
+                this.setRoles(data.roles);
+            } else {
+                return Promise.reject("getInfo: roles 必需是非空数组");
             }
+            this.setName(data.username);
+            this.setAvatar(data.icon);
+            return data;
+
         },
 
         // 登出
