@@ -1,0 +1,41 @@
+<template>
+  <div class="scroll-container" ref="scrollContainer" @wheel.prevent="handleScroll">
+    <div class="scroll-wrapper" ref="scrollWrapper" :style="{top: top + 'px'}">
+      <slot></slot>
+    </div>
+  </div>
+</template>
+<script setup lang="ts">
+import {ref} from "vue";
+
+const delta = 15;
+const top = ref(0);
+const scrollContainer = ref(null);
+const scrollWrapper = ref(null);
+const handleScroll = (e) => {
+  const eventDelta = e.wheelDelta || -e.deltaY * 3;
+  const $container = scrollContainer.value;
+  const $containerHeight = $container.offsetHeight;
+  const $wrapper = scrollWrapper.value;
+  const $wrapperHeight = $wrapper.offsetHeight;
+
+  if (eventDelta > 0) {
+    // 向上滚动
+    top.value = Math.min(0, top.value + eventDelta);
+  } else {
+    // 向下滚动
+    if ($containerHeight - delta < $wrapperHeight) {
+      if (top.value < -($wrapperHeight - $containerHeight + delta)) {
+        //top.value = top.value;
+      } else {
+        top.value = Math.max(
+            top.value + eventDelta,
+            $containerHeight - $wrapperHeight - delta
+        );
+      }
+    } else {
+      top.value = 0;
+    }
+  }
+};
+</script>
