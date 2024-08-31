@@ -1,20 +1,11 @@
 <template>
-  <div class="app-wrapper">
+  <div class="app-wrapper" :class="classObj">
     <Sidebar class="sidebar-container"></Sidebar>
     <div class="main-container">
       <Navbar/>
       <AppMain/>
     </div>
   </div>
-  <!--  <div class="app-wrapper" :class="classObj">-->
-  <!--    <AppMain/>-->
-
-  <!--    <Sidebar class="sidebar-container"/>-->
-  <!--    <div class="main-container">-->
-  <!--      <Navbar/>-->
-  <!--      <AppMain/>-->
-  <!--    </div>-->
-  <!--  </div>-->
 </template>
 
 <script setup lang="ts">

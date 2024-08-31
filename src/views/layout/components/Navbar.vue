@@ -1,26 +1,28 @@
 <template>
   <el-menu class="navbar" mode="horizontal">
-<!--    <hamburger class="hamburger-container" :toggle-click="toggleSidebar" :is-active="sidebar.opened"></hamburger>-->
-    <breadcrumb></breadcrumb>
+    <Hamburger class="hamburger-container" :toggle-click="toggleSidebar" :is-active="sidebar.opened"></Hamburger>
+    <Breadcrumb></Breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img class="user-avatar" :src="avatar">
+        <img class="user-avatar" :src="avatar" alt="">
         <i class="el-icon-caret-bottom"></i>
       </div>
-      <el-dropdown-menu class="user-dropdown" slot="dropdown">
-        <router-link class="inlineBlock" to="/">
-          <el-dropdown-item>
-            首页
+      <!-- 使用 template #dropdown -->
+      <template #dropdown>
+        <el-dropdown-menu class="user-dropdown">
+          <router-link class="inlineBlock" to="/">
+            <el-dropdown-item>
+              首页
+            </el-dropdown-item>
+          </router-link>
+          <el-dropdown-item divided>
+            <span @click="logout" style="display: block;">退出</span>
           </el-dropdown-item>
-        </router-link>
-        <el-dropdown-item divided>
-          <span @click="logout" style="display: block">退出</span>
-        </el-dropdown-item>
-      </el-dropdown-menu>
+        </el-dropdown-menu>
+      </template>
     </el-dropdown>
   </el-menu>
 </template>
-
 
 <script setup lang="ts">
 import Hamburger from "@/components/Hamburger/Index.vue";
