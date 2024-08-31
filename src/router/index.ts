@@ -1,8 +1,8 @@
-import {createRouter, createWebHashHistory} from "vue-router";
+import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router";
 import {Pages} from "@/router/pages.ts";
 
 // 固定路由
-export const ConstantRouterMap  = [
+export const ConstantRouterMap = [
     // 登录注册页
     {
         path: '/login',
@@ -38,7 +38,7 @@ export const AsyncRouterMap = [];
 
 const router = createRouter({
     history: createWebHashHistory(import.meta.env.BASE_URL),
-    routes: ConstantRouterMap
+    routes: ConstantRouterMap as RouteRecordRaw[]
 });
 
 export default router;
