@@ -23,7 +23,7 @@ export const Pages = {
     subscriber: 'subscriber',
     room: 'room',
     login: 'login',
-    notFound:'NotFound',
+    notFound: 'NotFound',
     profile: 'profile',
     profileInfo: 'profileInfo',
     profileSetUsername: 'profileSetUsername',
@@ -42,4 +42,8 @@ export const Pages = {
     favorites: 'favorites',
     readHistory: 'readHistory',
     otherProfile: 'otherProfile',
+    ums: 'ums',
+    admin: 'admin',
+    role: 'role',
+    allocMenu: 'allocMenu',
 }

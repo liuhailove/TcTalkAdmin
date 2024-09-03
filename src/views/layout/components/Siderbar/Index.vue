@@ -1,5 +1,5 @@
 <template>
-  <scroll-bar>
+  <scroll-bar class="sidebar-container">
     <el-menu
         mode="vertical"
         :show-timeout="200"

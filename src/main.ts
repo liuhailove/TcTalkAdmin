@@ -18,6 +18,8 @@ import initPermission from '@/permission' ;
 // 导入 ECharts 和 vue-echarts 组件
 import ECharts from 'vue-echarts';
 import { use } from 'echarts/core';
+// 引入所有图标
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
 // 按需导入 ECharts 模块
 import { CanvasRenderer } from 'echarts/renderers';
@@ -46,6 +48,10 @@ app.component('SvgIcon', SvgIcon);
 //     }
 // );
 // 权限控制
+// 全局注册所有图标组件
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+}
 app.mount('#app')
 
 
