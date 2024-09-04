@@ -53,7 +53,7 @@ export async function listMenuByRole(roleId: string) {
         code: number,
         message: string,
         data: {
-            list: Array<UsmAdmin>,
+            list: Array<UmsRole>,
         },
     }>("admin_api/role/listMenu/" + roleId)
 }
@@ -63,7 +63,7 @@ export async function listResourceByRole(roleId: string) {
         code: number,
         message: string,
         data: {
-            list: Array<UsmAdmin>,
+            list: Array<UmsRole>,
         },
     }>("admin_api/role/listResource/" + roleId)
 }
@@ -72,7 +72,7 @@ export async function useAllocMenu(id: string, menuIds: Array<string>) {
     return await http.post<{
         code: number,
         message: string,
-    }>("admin_api/role/allocMenu?id=" + id + "&menuIds" + menuIds)
+    }>("admin_api/role/allocMenu?roleId=" + id + "&menuIds=" + menuIds)
 }
 
 

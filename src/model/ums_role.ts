@@ -2,27 +2,37 @@ export interface UmsRole {
     id: string;
 
     /**
-     * 名称
+     * 创建时间
      */
-    name: string;
-    /**
-     * 描述
-     */
-    description: string;
-    /**
-     * 后台用户数量
-     */
-    adminCount: number;
+    parentId: string;
 
     /**
      * 创建时间
      */
     createTime: string;
+    /**
+     * 菜单名称
+     */
+    title: string;
+    /**
+     * 菜单级数
+     */
+    level: number;
 
     /**
-     * 启用状态：0->禁用；1->启用
+     * 菜单排序
      */
-    status: number;
-
     sort: number;
+
+    /**
+     * 前端名称
+     */
+    name: string;
+
+    /**
+     * 前端图标
+     */
+    icon: string;
+
+    hidden: number;
 }
