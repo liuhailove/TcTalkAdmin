@@ -30,7 +30,7 @@ const defaultProps = ref({
   children: 'children',
   label: 'title'
 });
-const roleId = ref<string>();
+const roleId = ref();
 const tree = ref(null);
 
 const treeList = () => {
@@ -41,12 +41,12 @@ const treeList = () => {
 
 const getRoleMenu = (roleId: string) => {
   listMenuByRole(roleId).then(response => {
-    let menuList = response.data;
+    let menuList = response.data.list;
     let checkedMenuIds = [];
     if (menuList != null && menuList.length > 0) {
       for (let i = 0; i < menuList.length; i++) {
         let menu = menuList[i];
-        if (menu.parentId !== 0) {
+        if (menu.parentId !== '0') {
           checkedMenuIds.push(menu.id);
         }
       }
@@ -57,7 +57,7 @@ const getRoleMenu = (roleId: string) => {
 
 const handleSave = () => {
   const checkedNodes = tree.value.getCheckedNodes();
-  const checkedMenuIds = new Set();
+  const checkedMenuIds = new Set<string>();
 
   if (checkedNodes && checkedNodes.length > 0) {
     checkedNodes.forEach((checkedNode) => {
