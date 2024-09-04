@@ -17,7 +17,7 @@ export async function useCreateRole(role: UmsRole) {
     return await http.post<{
         code: number,
         message: string,
-    }>("admin_api/role/create", {data: role});
+    }>("admin_api/role/create", role);
 }
 
 export async function useUpdateRole(id: string, role: UmsRole) {
@@ -28,15 +28,15 @@ export async function useUpdateRole(id: string, role: UmsRole) {
 }
 
 
-export async function useUpdateStatus(id, params: any) {
-    return await http.post<{}>("admin_api/role/updateStatus/" + id, params);
+export async function useUpdateStatus(id: string, status: number) {
+    return await http.post<{}>("admin_api/role/updateStatus/" + id + "?status=" + status);
 }
 
 export async function useDeleteRole(ids: Array<string>) {
     return await http.post<{
         code: number,
         message: string,
-    }>("admin_api/role/delete", ids);
+    }>("admin_api/role/delete?ids=" + ids);
 }
 
 export async function useFetchAllRoleList() {
@@ -68,7 +68,7 @@ export async function listResourceByRole(roleId: string) {
     }>("admin_api/role/listResource/" + roleId)
 }
 
-export async function allocMenu(id: string, menuIds: Array<string>) {
+export async function useAllocMenu(id: string, menuIds: Array<string>) {
     return await http.post<{
         code: number,
         message: string,
