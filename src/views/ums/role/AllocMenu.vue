@@ -20,7 +20,7 @@
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useFetchTreeList} from "@/api/menu.ts";
-import {listMenuByRole, useAllocMenu} from "@/api/role.ts";
+import {listMenuByRole, useAllocMenu, useListMenuByRole} from "@/api/role.ts";
 import {ElMessage, ElMessageBox} from "element-plus";
 
 const route = useRoute();
@@ -40,8 +40,8 @@ const treeList = () => {
 }
 
 const getRoleMenu = (roleId: string) => {
-  listMenuByRole(roleId).then(response => {
-    let menuList = response.data.list;
+  useListMenuByRole(roleId).then(response => {
+    let menuList = response.data;
     let checkedMenuIds = [];
     if (menuList != null && menuList.length > 0) {
       for (let i = 0; i < menuList.length; i++) {

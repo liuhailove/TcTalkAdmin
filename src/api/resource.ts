@@ -40,6 +40,8 @@ export async function useFetchAllResourceList() {
     return await http.get<{
         code: number,
         message: string,
-        data: number,
+        data: {
+            list: Array<UmsResource>,
+        },
     }>("admin_api/resource/listAll");
 }
