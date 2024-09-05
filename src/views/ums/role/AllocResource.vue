@@ -165,12 +165,11 @@ const handleClear = () => {
   })
 }
 
-const handleCheckAllChange = (resource) => {
-  allResourceCate.value.forEach((item) => {
-    if (item.id === resource.categoryId) {
-      item.checked = isAllChecked(resource.categoryId);
-    }
-  })
+const handleCheckAllChange = (cate) => {
+  let cateResources = getResourceByCate(cate.id);
+  for (let i = 0; i < cateResources.length; i++) {
+    cateResources[i].checked = cate.checked;
+  }
 }
 
 const handleCheckChange = (resource) => {
