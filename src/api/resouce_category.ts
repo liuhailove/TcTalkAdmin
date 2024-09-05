@@ -5,9 +5,7 @@ export async function useListAllCate() {
     return await http.get<{
         code: number,
         message: string,
-        data: {
-            list: Array<UmsResourceCategory>,
-        },
+        data: Array<UmsResourceCategory>,
     }>("admin_api/resourceCategory/listAll")
 }
 

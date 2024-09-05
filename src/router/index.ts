@@ -73,6 +73,13 @@ export const AsyncRouterMap = [
                 meta: {title: '分配菜单'},
                 hidden: true
             },
+            {
+                path: 'allocResource',
+                name: Pages.allocResource,
+                component: () => import('@/views/ums/role/AllocResource.vue'),
+                meta: {title: '分配资源'},
+                hidden: true
+            },
         ]
     }
 ];

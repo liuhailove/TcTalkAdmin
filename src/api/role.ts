@@ -62,9 +62,7 @@ export async function useListResourceByRole(roleId: string) {
     return await http.get<{
         code: number,
         message: string,
-        data: {
-            list: Array<UmsResource>,
-        },
+        data: Array<UmsResource>,
     }>("admin_api/role/listResource/" + roleId)
 }
 
@@ -80,5 +78,5 @@ export async function useAllocResource(id: string, resourceIds: Array<string>) {
     return await http.post<{
         code: number,
         message: string,
-    }>("admin_api/role/allocResource?id=" + id + "&resourceIds" + resourceIds)
+    }>("admin_api/role/allocResource?roleId=" + id + "&resourceIds=" + resourceIds)
 }

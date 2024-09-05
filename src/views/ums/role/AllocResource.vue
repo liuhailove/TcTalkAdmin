@@ -26,7 +26,7 @@
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useListAllCate} from "@/api/resouce_category.ts";
-import {useAllocMenu, useAllocResource, useListResourceByRole} from "@/api/role.ts";
+import {useAllocResource, useListResourceByRole} from "@/api/role.ts";
 import {UmsResource} from "@/model/ums_resource.ts";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {useFetchAllResourceList} from "@/api/resource.ts";
@@ -44,7 +44,7 @@ onMounted(() => {
 
 const getAllResourceCateList = () => {
   useListAllCate().then(response => {
-    allResourceCate.value = response.data.list;
+    allResourceCate.value = response.data;
     for (let i = 0; i < allResourceCate.value.length; i++) {
       allResourceCate.value[i].checked = true;
     }
@@ -54,9 +54,9 @@ const getAllResourceCateList = () => {
 
 const getAllResourceList = () => {
   useFetchAllResourceList().then(response => {
-    allResource.value = response.data.list;
+    allResource.value = response.data;
     for (let i = 0; i < allResource.value.length; i++) {
-      allResourceCate.value[i].checked = true;
+      allResource.value[i].checked = true;
     }
     getResourceByRole(roleId.value);
   })
@@ -68,7 +68,7 @@ const getResourceByCate = (categoryId: string) => {
     return null;
   }
   for (let i = 0; i < allResource.value.length; i++) {
-    let resource = allResource[i];
+    let resource = allResource.value[i];
     if (resource.categoryId === categoryId) {
       cateResource.push(resource);
     }
@@ -78,7 +78,7 @@ const getResourceByCate = (categoryId: string) => {
 
 const getResourceByRole = (roleId: string) => {
   useListResourceByRole(roleId).then(response => {
-    let allocResource = response.data.list;
+    let allocResource = response.data;
     allResource.value.forEach((item) => {
       item.checked = getResourceChecked(item.id, allocResource);
     });
@@ -89,10 +89,10 @@ const getResourceByRole = (roleId: string) => {
 }
 
 const getResourceChecked = (resourceId: string, allocResource: Array<UmsResource>) => {
-  if (allocResource.length === 0) {
+  if (allocResource === undefined || allocResource.length === 0) {
     return false;
   }
-  for (let i = 0; i < allResource.value.length; i++) {
+  for (let i = 0; i < allocResource.length; i++) {
     if (allocResource[i].id === resourceId) {
       return true;
     }
@@ -166,6 +166,14 @@ const handleClear = () => {
 }
 
 const handleCheckAllChange = (resource) => {
+  allResourceCate.value.forEach((item) => {
+    if (item.id === resource.categoryId) {
+      item.checked = isAllChecked(resource.categoryId);
+    }
+  })
+}
+
+const handleCheckChange = (resource) => {
   allResourceCate.value.forEach((item) => {
     if (item.id === resource.categoryId) {
       item.checked = isAllChecked(resource.categoryId);

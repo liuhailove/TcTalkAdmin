@@ -299,7 +299,7 @@ const handleSelectMenu = (row) => {
 }
 
 const handleSelectResource = (row) => {
-  router.push({path: '/ums/allocResource', query: {id: row.id}})
+  router.push({path: '/ums/allocResource', query: {roleId: row.id}})
 }
 
 onMounted(() => {
