@@ -35,4 +35,7 @@ export interface UmsRole {
     icon: string;
 
     hidden: number;
+    description: string,
+    adminCount: number,
+    status: number,
 }

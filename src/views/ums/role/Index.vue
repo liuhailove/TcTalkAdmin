@@ -155,11 +155,18 @@ const defaultListQuery = {
   keyword: '',
 };
 const defaultRole = {
-  id: null,
-  name: null,
-  description: null,
+  id: "",
+  parentId: "",
+  createTime: "",
+  title: "",
+  level: 0,
+  sort: 0,
+  name: "",
+  icon: "",
+  hidden: 0,
+  description: "",
   adminCount: 0,
-  status: 1
+  status: 1,
 };
 
 const listQuery = ref(Object.assign({}, defaultListQuery));

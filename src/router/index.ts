@@ -80,6 +80,13 @@ export const AsyncRouterMap = [
                 meta: {title: '分配资源'},
                 hidden: true
             },
+            {
+                path: 'menu',
+                name: Pages.menu,
+                component:()=>import("@/views/ums/menu/Index.vue"),
+                meta: {title: '菜单列表', icon: 'ums-menu'}
+
+            }
         ]
     }
 ];
