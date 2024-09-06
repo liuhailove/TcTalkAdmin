@@ -106,6 +106,13 @@ export const AsyncRouterMap = [
                 component:()=>import("@/views/ums/resource/Index.vue"),
                 meta: {title: '资源列表', icon: 'ums-resource'},
             },
+            {
+                path: 'resourceCategory',
+                name: Pages.resourceCategory,
+                component: () => import('@/views/ums/resource/CategoryList.vue'),
+                meta: {title: '资源分类'},
+                hidden: true
+            }
         ]
     }
 ];

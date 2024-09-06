@@ -285,3 +285,8 @@ const getCateList = () => {
 }
 
 </script>
+<style scoped>
+.input-width {
+  width: 200px;
+}
+</style>

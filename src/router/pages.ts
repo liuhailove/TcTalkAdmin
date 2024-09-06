@@ -51,4 +51,5 @@ export const Pages = {
     addMenu: 'addMenu',
     updateMenu: 'updateMenu',
     resource: 'resource',
+    resourceCategory:'resourceCategory',
 }
