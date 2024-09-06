@@ -52,4 +52,5 @@ export const Pages = {
     updateMenu: 'updateMenu',
     resource: 'resource',
     resourceCategory:'resourceCategory',
+    homeAdvertise:'homeAdvertise',
 }

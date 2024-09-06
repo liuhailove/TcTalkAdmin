@@ -141,7 +141,7 @@ import {useRouter} from "vue-router";
 import {useListAllCate} from "@/api/resouce_category.ts";
 import {UmsResource} from "@/model/ums_resource.ts";
 
-const router = useRouter()
+const router = useRouter();
 
 const defaultListQuery = {
   pageNum: 1,

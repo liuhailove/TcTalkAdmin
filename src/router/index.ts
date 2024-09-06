@@ -83,27 +83,27 @@ export const AsyncRouterMap = [
             {
                 path: 'menu',
                 name: Pages.menu,
-                component:()=>import("@/views/ums/menu/Index.vue"),
+                component: () => import("@/views/ums/menu/Index.vue"),
                 meta: {title: '菜单列表', icon: 'ums-menu'},
             },
             {
-                path:'addMenu',
+                path: 'addMenu',
                 name: Pages.addMenu,
-                component:()=>import("@/views/ums/menu/Add.vue"),
+                component: () => import("@/views/ums/menu/Add.vue"),
                 meta: {title: '添加菜单'},
                 hidden: true
             },
             {
-                path:'updateMenu',
+                path: 'updateMenu',
                 name: Pages.updateMenu,
-                component:()=>import("@/views/ums/menu/Update.vue"),
+                component: () => import("@/views/ums/menu/Update.vue"),
                 meta: {title: '修改菜单'},
                 hidden: true
             },
             {
-                path:'resource',
+                path: 'resource',
                 name: Pages.resource,
-                component:()=>import("@/views/ums/resource/Index.vue"),
+                component: () => import("@/views/ums/resource/Index.vue"),
                 meta: {title: '资源列表', icon: 'ums-resource'},
             },
             {
@@ -113,6 +113,21 @@ export const AsyncRouterMap = [
                 meta: {title: '资源分类'},
                 hidden: true
             }
+        ]
+    },
+    {
+        path: '/sms',
+        component: () => import("@/views/layout/Layout.vue"),
+        redirect: '/sms/coupon',
+        name: 'sms',
+        meta: {title: '营销', icon: 'sms'},
+        children: [
+            {
+                path: 'advertise',
+                name: Pages.homeAdvertise,
+                component: () => import('@/views/sms/advertise/Index.vue'),
+                meta: {title: '广告列表', icon: 'sms-ad'}
+            },
         ]
     }
 ];
