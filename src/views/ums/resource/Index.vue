@@ -122,10 +122,10 @@
                     style="width: 250px"></el-input>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
+      <template #footer class="dialog-footer">
         <el-button @click="dialogVisible = false" size="small">取 消</el-button>
         <el-button type="primary" @click="handleDialogConfirm()" size="small">确 定</el-button>
-      </span>
+      </template>
     </el-dialog>
 
 
@@ -276,8 +276,8 @@ const getList = () => {
 const getCateList = () => {
   useListAllCate().then(response => {
     let cateList = response.data;
-    for (let i = 0; i < cateList.length; i++) {
-      let cate = cateList[i];
+    for (const element of cateList) {
+      let cate = element;
       categoryOptions.value.push({label: cate.name, value: cate.id});
     }
     defaultCategoryId = cateList[0].id;

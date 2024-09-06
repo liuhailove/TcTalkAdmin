@@ -100,6 +100,12 @@ export const AsyncRouterMap = [
                 meta: {title: '修改菜单'},
                 hidden: true
             },
+            {
+                path:'resource',
+                name: Pages.resource,
+                component:()=>import("@/views/ums/resource/Index.vue"),
+                meta: {title: '资源列表', icon: 'ums-resource'},
+            },
         ]
     }
 ];

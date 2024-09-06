@@ -50,4 +50,5 @@ export const Pages = {
     menu: 'menu',
     addMenu: 'addMenu',
     updateMenu: 'updateMenu',
+    resource: 'resource',
 }
