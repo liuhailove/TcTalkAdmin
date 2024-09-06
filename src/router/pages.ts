@@ -47,5 +47,7 @@ export const Pages = {
     role: 'role',
     allocMenu: 'allocMenu',
     allocResource: 'allocResource',
-    menu:'menu',
+    menu: 'menu',
+    addMenu: 'addMenu',
+    updateMenu: 'updateMenu',
 }

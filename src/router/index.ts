@@ -84,9 +84,22 @@ export const AsyncRouterMap = [
                 path: 'menu',
                 name: Pages.menu,
                 component:()=>import("@/views/ums/menu/Index.vue"),
-                meta: {title: '菜单列表', icon: 'ums-menu'}
-
-            }
+                meta: {title: '菜单列表', icon: 'ums-menu'},
+            },
+            {
+                path:'addMenu',
+                name: Pages.addMenu,
+                component:()=>import("@/views/ums/menu/Add.vue"),
+                meta: {title: '添加菜单'},
+                hidden: true
+            },
+            {
+                path:'updateMenu',
+                name: Pages.updateMenu,
+                component:()=>import("@/views/ums/menu/Update.vue"),
+                meta: {title: '修改菜单'},
+                hidden: true
+            },
         ]
     }
 ];

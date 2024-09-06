@@ -133,7 +133,6 @@ const handleLogin = () => {
             loading.value = false;
           });
     } else {
-      console.log('参数验证不合法！');
       return false;
     }
   });
