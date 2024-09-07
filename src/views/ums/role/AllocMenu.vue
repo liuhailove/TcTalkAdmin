@@ -20,7 +20,7 @@
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useFetchTreeList} from "@/api/menu.ts";
-import {listMenuByRole, useAllocMenu, useListMenuByRole} from "@/api/role.ts";
+import { useAllocMenu, useListMenuByRole} from "@/api/role.ts";
 import {ElMessage, ElMessageBox} from "element-plus";
 
 const route = useRoute();

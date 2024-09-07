@@ -53,4 +53,5 @@ export const Pages = {
     resource: 'resource',
     resourceCategory:'resourceCategory',
     homeAdvertise:'homeAdvertise',
+    addHomeAdvertise:'addHomeAdvertise',
 }

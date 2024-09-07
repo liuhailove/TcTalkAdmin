@@ -128,6 +128,13 @@ export const AsyncRouterMap = [
                 component: () => import('@/views/sms/advertise/Index.vue'),
                 meta: {title: '广告列表', icon: 'sms-ad'}
             },
+            {
+                path: 'addAdvertise',
+                name: Pages.addHomeAdvertise,
+                component: () => import('@/views/sms/advertise/Add.vue'),
+                meta: {title: '添加广告'},
+                hidden: true
+            },
         ]
     }
 ];
