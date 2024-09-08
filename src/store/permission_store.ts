@@ -76,6 +76,10 @@ export const usePermissionStore = defineStore("permissionStore", {
             accessedRouters.sort(this.compare("sort"));
         },
         generateRoutes(menus: Array<Menu>) {
+            console.info("generateRoutes");
+            for (let i = 0; i < menus.length; i++) {
+                console.info(menus[i].name);
+            }
             const accessedRouters = AsyncRouterMap.filter(v => {
                 if (this.hasPermission(menus, v)) {
                     if (v.children && v.children.length > 0) {

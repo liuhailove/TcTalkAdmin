@@ -22,6 +22,4 @@ import SidebarItem from "@/views/layout/components/Siderbar/SidebarItem.vue";
 
 const {routers} = toRefs(usePermissionStore());
 const {isCollapse} = useAppStore();
-
-
 </script>

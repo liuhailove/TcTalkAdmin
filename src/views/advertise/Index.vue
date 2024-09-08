@@ -1,0 +1,3 @@
+<template>
+  advertiser
+</template>

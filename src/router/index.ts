@@ -129,11 +129,68 @@ export const AsyncRouterMap = [
                 meta: {title: '广告列表', icon: 'sms-ad'}
             },
             {
+                path: 'flash',
+                name: 'flash',
+                component: () => import('@/views/sms/advertise/Index.vue'),
+                meta: {title: '秒杀活动', icon: 'sms-ad'}
+            },
+            {
                 path: 'addAdvertise',
                 name: Pages.addHomeAdvertise,
                 component: () => import('@/views/sms/advertise/Add.vue'),
                 meta: {title: '添加广告'},
                 hidden: true
+            },
+        ]
+    },
+    {
+        path: '/advertise',
+        component: () => import("@/views/layout/Layout.vue"),
+        redirect: '/advertise/channel',
+        name: 'advertise',
+        meta: {title: '广告', icon: 'advertise'},
+        children: [
+            {
+                path: 'channel',
+                name: Pages.adsChannel,
+                component: () => import('@/views/advertise/channel/Index.vue'),
+                meta: {title: '广告渠道', icon: 'advertise-channel'},
+            },
+            {
+                path: 'adsList',
+                name: Pages.adsList,
+                component: () => import('@/views/advertise/channel/Index.vue'),
+                meta: {title: '广告列表', icon: 'advertise-channel'},
+            },
+            {
+                path: 'adsSlot',
+                name: Pages.adsSlot,
+                component: () => import('@/views/advertise/channel/Index.vue'),
+                meta: {title: '广告槽位', icon: 'advertise-channel'},
+            },
+            {
+                path: 'adsTemplate',
+                name: Pages.adsTemplate,
+                component: () => import('@/views/advertise/channel/Index.vue'),
+                meta: {title: '广告模版', icon: 'advertise-channel'},
+            },
+            {
+                path: 'adsPut',
+                name: Pages.adsPut,
+                component: () => import('@/views/advertise/channel/Index.vue'),
+                meta: {title: '广告模版', icon: 'advertise-channel'},
+            },
+            {
+                path: 'adsSizeType',
+                name: Pages.adsSizeType,
+                component: () => import('@/views/advertise/channel/Index.vue'),
+                meta: {title: '尺寸类型', icon: 'advertise-channel'},
+            },
+            {
+                path: 'adsShowLog',
+                name: Pages.adsShowLog,
+                component: () => import('@/views/advertise/channel/Index.vue'),
+                meta: {title: '展示日志', icon: 'advertise-channel'},
             },
         ]
     }

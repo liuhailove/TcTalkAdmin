@@ -96,7 +96,7 @@ const formatDateTime = (time: string) => {
 
 const handleAdd = () => {
   dialogVisible.value = true;
-  isEdit.value = true;
+  isEdit.value = false;
   resourceCategory.value = Object.assign({}, defaultResourceCategory);
 }
 
