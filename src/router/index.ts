@@ -165,7 +165,7 @@ export const AsyncRouterMap = [
             {
                 path: 'adsSlot',
                 name: Pages.adsSlot,
-                component: () => import('@/views/advertise/channel/Index.vue'),
+                component: () => import('@/views/advertise/slot/Index.vue'),
                 meta: {title: '广告槽位', icon: 'advertise-channel'},
             },
             {
