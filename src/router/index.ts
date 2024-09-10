@@ -183,7 +183,7 @@ export const AsyncRouterMap = [
             {
                 path: 'adsSizeType',
                 name: Pages.adsSizeType,
-                component: () => import('@/views/advertise/channel/Index.vue'),
+                component: () => import('@/views/advertise/sizeType/Index.vue'),
                 meta: {title: '尺寸类型', icon: 'advertise-channel'},
             },
             {
