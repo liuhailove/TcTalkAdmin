@@ -41,7 +41,7 @@ export async function useDeleteChannel(id: string) {
 
 // --------------------------------------slot-------------------------------------------------
 
-export async function useFetchSlotList(name: string, pageSize: number, pageNum: number) {
+export async function useFetchSlotList(slotName: string, channelName: string, mediaType: number, pageSize: number, pageNum: number) {
     return await http.get<{
         code: number,
         message: string,
@@ -49,7 +49,7 @@ export async function useFetchSlotList(name: string, pageSize: number, pageNum: 
             list: Array<AdsSlot>,
             total: string,
         },
-    }>("admin_api/ads/listSlot?name=" + name + "&pageSize=" + pageSize + "&pageNum=" + pageNum)
+    }>("admin_api/ads/listSlot?slotName=" + slotName + "&channelName=" + channelName + "&mediaType=" + mediaType + "&pageSize=" + pageSize + "&pageNum=" + pageNum)
 }
 
 export async function useCreateSlot(data: any) {
@@ -75,6 +75,14 @@ export async function useDeleteSlot(id: string) {
         message: string,
         data: number,
     }>("admin_api/ads/deleteSlot/" + id)
+}
+
+export async function useGetSlot(id: string) {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: AdsSlot
+    }>("admin_api/ads/getSlot/" + id);
 }
 
 // --------------------------------------sizeType-------------------------------------------------
@@ -113,5 +121,13 @@ export async function useDeleteSizeType(id: string) {
         message: string,
         data: number,
     }>("admin_api/ads/deleteSizeType/" + id)
+}
+
+export async function useGetSizeType(id: string) {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: AdsSizeType
+    }>("admin_api/ads/getSizeType/" + id);
 }
 

@@ -31,8 +31,11 @@
                       clearable></el-input>
           </el-form-item>
           <el-form-item label="媒体类型：">
-            <el-input v-model="listQuery.channelNameKeyword" class="input-width" placeholder="频道名称"
-                      clearable></el-input>
+            <el-radio-group v-model="listQuery.mediaType">
+              <el-radio :label="''">全部</el-radio>
+              <el-radio :label="'app'">APP</el-radio>
+              <el-radio :label="'pc'">PC</el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-form>
       </div>
@@ -81,7 +84,9 @@
           <template #default="scope">{{ scope.row.dayTimes }}</template>
         </el-table-column>
         <el-table-column label="启用" align="center" width="80">
-          <template #default="scope">{{ scope.row.enabled }}</template>
+          <template #default="scope">
+            {{ scope.row.enabled === 1 ? '是' : '否' }}
+          </template>
         </el-table-column>
         <el-table-column label="创建人" align="center">
           <template #default="scope">{{ scope.row.createBy }}</template>
@@ -116,53 +121,6 @@
           :total="total">
       </el-pagination>
     </div>
-    <el-dialog
-        :title="isEdit?'编辑':'添加'"
-        v-model="dialogVisible"
-        width="40%">
-      <el-form :model="adsSizeType"
-               ref="resourceForm"
-               label-width="150px" size="small">
-        <el-form-item label="类型名称：">
-          <el-input v-model="adsSizeType.name" style="width: 250px"></el-input>
-        </el-form-item>
-        <el-form-item label="宽：">
-          <el-input v-model="adsSizeType.width" placeholder="只能输入正整数" style="width: 250px">
-            <template v-slot:append>px</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="高：">
-          <el-input v-model="adsSizeType.height" placeholder="只能输入正整数" style="width: 250px">
-            <template v-slot:append>px</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="文件类型：">
-          <el-select v-model="adsSizeType.fileTypesArray" multiple placeholder="请选择" style="width: 250px">
-            <el-option
-                v-for="item in fileTypes"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="文件最大：">
-          <el-input v-model="adsSizeType.fileMax" placeholder="只能输入正整数" style="width: 250px">
-            <template v-slot:append>KB</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="备注：">
-          <el-input v-model="adsSizeType.remark"
-                    type="textarea"
-                    :rows="5"
-                    style="width: 250px"></el-input>
-        </el-form-item>
-      </el-form>
-      <template #footer class="dialog-footer">
-        <el-button @click="dialogVisible = false" size="small">取 消</el-button>
-        <el-button type="primary" @click="handleDialogConfirm()" size="small">确 定</el-button>
-      </template>
-    </el-dialog>
   </div>
 </template>
 <script setup lang="ts">
@@ -171,45 +129,25 @@ import {onMounted, ref} from "vue";
 import {formatDate} from "@/utils/date.ts";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {
-  useCreateSizeType,
-  useDeleteSizeType,
-  useFetchSizeTypeList, useFetchSlotList,
-  useUpdateSizeType
+  useDeleteSlot,
+  useFetchSlotList,
 } from "@/api/ads_api.ts";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 
 const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
-  nameKeyword: '',
-};
-
-const defaultAdsSizeType = {
-  id: '',
-  name: '',
-  width: null,
-  height: null,
-  fileTypes: '',
-  fileTypesArray: [],
-  fileMax: null,
-  remark: '',
+  slotNameKeyword: '',
+  channelNameKeyword: '',
+  mediaType: '',
 };
 
 const listQuery = ref(Object.assign({}, defaultListQuery));
-const adsSizeType = ref(Object.assign({}, defaultAdsSizeType));
 const list = ref(null);
 const total = ref(0);
 const listLoading = ref(false);
-const dialogVisible = ref(false);
-const isEdit = ref(false);
-
-// gif、jpg、swf
-const fileTypes = ref([
-  {value: 'gif', label: 'gif'},
-  {value: 'jpg', label: 'jpg'},
-  {value: 'swf', label: 'swf'},
-  {value: 'png', label: 'png'},
-]);
-
 onMounted(() => {
   getList();
 })
@@ -243,9 +181,7 @@ const handleCurrentChange = (val: number) => {
 }
 
 const handleAdd = () => {
-  dialogVisible.value = true;
-  isEdit.value = false;
-  adsSizeType.value = Object.assign({}, defaultAdsSizeType);
+  router.push({path: '/advertise/addSlot', query: {isEdit: 'false'}});
 }
 
 const handleDelete = (row) => {
@@ -254,60 +190,23 @@ const handleDelete = (row) => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
-    useDeleteSizeType(row.id).then(() => {
+    useDeleteSlot(row.id).then(() => {
       ElMessage({
         type: 'success',
         message: '删除成功!'
       });
-      dialogVisible.value = false;
       getList();
     })
   });
 }
 
 const handleUpdate = (row) => {
-  dialogVisible.value = true;
-  isEdit.value = true;
-  if (row.fileTypes !== null && row.fileTypes !== '') {
-    row.fileTypesArray = row.fileTypes.split(',');
-  }
-  adsSizeType.value = Object.assign({}, row);
-}
-
-const handleDialogConfirm = () => {
-  ElMessageBox.confirm('是否要确认?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
-    if (adsSizeType.value.fileTypesArray.length > 0) {
-      adsSizeType.value.fileTypes = adsSizeType.value.fileTypesArray.join(",");
-    }
-    if (isEdit.value) {
-      useUpdateSizeType(adsSizeType.value.id, adsSizeType.value).then(() => {
-        ElMessage({
-          type: 'success',
-          message: '修改成功!'
-        });
-        dialogVisible.value = false;
-        getList();
-      });
-    } else {
-      useCreateSizeType(adsSizeType.value).then(() => {
-        ElMessage({
-          type: 'success',
-          message: '添加成功!'
-        });
-        dialogVisible.value = false;
-        getList();
-      });
-    }
-  });
+  router.push({path: '/advertise/editSlot', query: {id: row.id, isEdit: 'true'}});
 }
 
 const getList = () => {
   listLoading.value = true;
-  useFetchSlotList(listQuery.value.nameKeyword, listQuery.value.pageSize, listQuery.value.pageNum).then(res => {
+  useFetchSlotList(listQuery.value.slotNameKeyword, listQuery.value.channelNameKeyword, listQuery.value.mediaType, listQuery.value.pageSize, listQuery.value.pageNum).then(res => {
     listLoading.value = false;
     list.value = res.data.list;
     total.value = Number(res.data.total);

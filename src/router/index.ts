@@ -169,6 +169,20 @@ export const AsyncRouterMap = [
                 meta: {title: '广告槽位', icon: 'advertise-channel'},
             },
             {
+                path: 'addSlot',
+                name: Pages.addSlot,
+                component: () => import('@/views/advertise/slot/Edit.vue'),
+                meta: {title: '新增槽位', icon: 'advertise-channel'},
+                hidden: true
+            },
+            {
+                path: 'editSlot',
+                name: Pages.editSlot,
+                component: () => import('@/views/advertise/slot/Edit.vue'),
+                meta: {title: '编辑槽位', icon: 'advertise-channel'},
+                hidden: true
+            },
+            {
                 path: 'adsTemplate',
                 name: Pages.adsTemplate,
                 component: () => import('@/views/advertise/channel/Index.vue'),
