@@ -7,9 +7,10 @@
       <el-form-item label="槽位名称：" prop="slotName">
         <el-input v-model="slot.slotName"></el-input>
       </el-form-item>
-      <el-form-item label="频道列表：">
+      <el-form-item label="频道名称：">
         <el-select v-model="slot.channelId"
-                   placeholder="请选择菜单">
+                   placeholder="请选择菜单"
+                   @change="handleChannelChange">
           <el-option
               v-for="item in selectChannelList"
               :key="item.id"
@@ -39,24 +40,88 @@
           </el-row>
           <el-row>
             <!-- 根据选中的 item 展示信息 -->
-            <el-col :span="6" class="table-cell">{{ selectedSizeType?.width || '-' }}</el-col>
-            <el-col :span="6" class="table-cell">{{ selectedSizeType?.height || '-' }}</el-col>
-            <el-col :span="6" class="table-cell">{{ selectedSizeType?.fileTypes || '-' }}</el-col>
-            <el-col :span="6" class="table-cell">{{ selectedSizeType?.fileMax || '-' }}</el-col>
+            <el-col :span="6" class="table-cell">{{ slot.width }}</el-col>
+            <el-col :span="6" class="table-cell">{{ slot.height }}</el-col>
+            <el-col :span="6" class="table-cell">{{ slot.fileTypes }}</el-col>
+            <el-col :span="6" class="table-cell">{{ slot.fileMax }}</el-col>
           </el-row>
         </div>
       </el-form-item>
-      <el-form-item label="媒体类型：">
+      <el-form-item label="媒体类型：" prop="mediaType">
         <el-radio-group v-model="slot.mediaType">
           <el-radio :label="'app'">APP</el-radio>
           <el-radio :label="'pc'">PC</el-radio>
         </el-radio-group>
       </el-form-item>
-
+      <el-form-item label="水平对齐：" prop="alignH">
+        <el-radio-group v-model="slot.alignH">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="水平距离：" prop="marginH">
+        <el-input v-model="slot.marginH">
+          <template v-slot:append>px</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="垂直对齐：" prop="alignV">
+        <el-radio-group v-model="slot.alignV">
+          <el-radio :label="true">是</el-radio>
+          <el-radio :label="false">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="垂直边距：" prop="marginV">
+        <el-input v-model="slot.marginV">
+          <template v-slot:append>px</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="停留时间：" prop="stayTime">
+        <el-input v-model="slot.stayTime" placeholder="只能输入正整数">
+          <template v-slot:append>秒</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="轮换间隔：" prop="rotateInterval">
+        <el-input v-model="slot.rotateInterval" placeholder="只能输入正整数">
+          <template v-slot:append>秒</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="展示数：" prop="adCount">
+        <el-input v-model="slot.adCount" placeholder="一次展示广告数">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="日展示数：" prop="dayTimes">
+        <el-input v-model="slot.dayTimes" placeholder="每天显示次数">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="跟随滚动：" prop="scrolled">
+        <el-radio-group v-model="slot.alignV">
+          <el-radio :label="1">是</el-radio>
+          <el-radio :label="0">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="可关闭：" prop="closable">
+        <el-radio-group v-model="slot.closable">
+          <el-radio :label="1">是</el-radio>
+          <el-radio :label="0">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="调度模式：">
+        <el-radio-group v-model="slot.scheduleMode">
+          <el-radio-button :label="0">Cron触发</el-radio-button>
+          <el-radio-button :label="1">固定点发布</el-radio-button>
+          <el-radio-button :label="2">手动发布</el-radio-button>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="备注：">
+        <el-input v-model="slot.positionDesc"
+                  type="textarea"
+                  :rows="5"
+        ></el-input>
+      </el-form-item>
       <el-form-item label="是否启用：">
         <el-radio-group v-model="slot.enabled">
           <el-radio :label="1">是</el-radio>
-          <el-radio :label="'pc'">PC</el-radio>
+          <el-radio :label="2">否</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item>
@@ -69,10 +134,8 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {useCreateMenu, useUpdateMenu} from "@/api/menu.ts";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {UmsMenu} from "@/model/ums_menu.ts";
-import {useFetchChannelList, useFetchSizeTypeList, useGetSlot} from "@/api/ads_api.ts";
+import {useCreateSlot, useFetchChannelList, useFetchSizeTypeList, useGetSlot, useUpdateSlot} from "@/api/ads_api.ts";
 
 const route = useRoute();
 const router = useRouter();
@@ -90,13 +153,14 @@ const defaultSlot = {
   fileTypes: '',
   fileMax: null,
   positionDesc: '',
-  alignH: null,
+  alignH: '',
+  marginH: null,
   alignV: '',
   marginV: null,
-  stayTime: null,
+  stayTime: 3,
   scrolled: 0,
   closable: 0,
-  scheduleMode: null,
+  scheduleMode: 0,
   adCount: null,
   rotateInterval: null,
   dayTimes: null,
@@ -104,9 +168,9 @@ const defaultSlot = {
   remark: '',
 };
 
-const props = defineProps<{
-  isEdit: boolean
-}>();
+// const props = defineProps<{
+//   isEdit: boolean
+// }>();
 
 // 将 query 参数转换为布尔值并传递给 props
 const isEdit = route.query.isEdit === 'true';
@@ -126,16 +190,22 @@ const rules = ref({
   ],
 });
 
-// 保存选中的尺寸类型的详细信息
-const selectedSizeType = ref(null);
-
 // 当用户选择了尺寸时，更新 selectedSizeType
 const handleSizeChange = (id) => {
-  selectedSizeType.value = selectSizeTypeList.value.find(item => item.id === id) || null;
+  const selectedSizeType = selectSizeTypeList.value.find(item => item.id === id) || null;
+  slot.value.width = selectedSizeType?.width || 0;
+  slot.value.height = selectedSizeType?.height || 0;
+  slot.value.fileTypes = selectedSizeType?.fileTypes || '';
+  slot.value.fileMax = selectedSizeType?.fileMax || 0;
 };
 
+const handleChannelChange = (id) => {
+  const selectedChannelType = selectChannelList.value.find(item => item.id === id) || null;
+  slot.value.channelName = selectedChannelType?.name || '';
+}
+
 onMounted(() => {
-  if (props.isEdit) {
+  if (isEdit) {
     useGetSlot(route.query.id as string).then(res => {
       slot.value = res.data;
     })
@@ -166,8 +236,8 @@ const onSubmit = () => {
         cancelButtonText: '取消',
         type: 'warning',
       }).then(() => {
-        if (props.isEdit) {
-          useUpdateMenu(route.query.id as string, menu.value as UmsMenu).then(() => {
+        if (isEdit) {
+          useUpdateSlot(route.query.id as string, slot.value).then(() => {
             ElMessage({
               type: 'success',
               message: '修改成功!',
@@ -176,10 +246,9 @@ const onSubmit = () => {
           });
           router.back();
         } else {
-          useCreateMenu(menu.value as UmsMenu).then(() => {
-            menuFromRef.value.resetFields();
-            menu.value = Object.assign({}, defaultMenu);
-            getSelectMenuList();
+          useCreateSlot(slot.value).then(() => {
+            slotFormRef.value.resetFields();
+            slot.value = Object.assign({}, defaultSlot);
             ElMessage({
               type: 'success',
               message: '修改成功!',
@@ -200,7 +269,8 @@ const onSubmit = () => {
 }
 
 const resetForm = () => {
-
+  slotFormRef.value.resetFields();
+  slot.value = Object.assign({}, defaultSlot);
 }
 </script>
 <style scoped>
