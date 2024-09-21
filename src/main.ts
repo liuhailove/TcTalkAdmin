@@ -17,14 +17,14 @@ import "virtual:svg-icons-register";
 import initPermission from '@/permission' ;
 // 导入 ECharts 和 vue-echarts 组件
 import ECharts from 'vue-echarts';
-import { use } from 'echarts/core';
+import {use} from 'echarts/core';
 // 引入所有图标
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
 // 按需导入 ECharts 模块
-import { CanvasRenderer } from 'echarts/renderers';
-import { LineChart } from 'echarts/charts';
-import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components';
+import {CanvasRenderer} from 'echarts/renderers';
+import {LineChart} from 'echarts/charts';
+import {GridComponent, TooltipComponent, LegendComponent} from 'echarts/components';
 
 // 使用 ECharts 模块
 use([CanvasRenderer, LineChart, GridComponent, TooltipComponent, LegendComponent]);
@@ -52,6 +52,9 @@ app.component('SvgIcon', SvgIcon);
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
+import {CkeditorPlugin} from '@ckeditor/ckeditor5-vue';
+
+app.use(CkeditorPlugin);
 app.mount('#app')
 
 

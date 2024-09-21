@@ -2,6 +2,7 @@ import http from "../utils/http.ts";
 import {AdsChannel} from "../model/ads_channel.ts";
 import {AdsSlot} from "../model/ads_slot.ts";
 import {AdsSizeType} from "../model/ads_size_type.ts";
+import {AdsTemplate} from "../model/ads_template.ts";
 
 export async function useFetchChannelList(name: string, pageSize: number, pageNum: number) {
     return await http.get<{
@@ -131,3 +132,48 @@ export async function useGetSizeType(id: string) {
     }>("admin_api/ads/getSizeType/" + id);
 }
 
+// --------------------------------------template-------------------------------------------------
+
+export async function useFetchTemplateList(name: string, pageSize: number, pageNum: number) {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: {
+            list: Array<AdsTemplate>,
+            total: string,
+        },
+    }>("admin_api/ads/listTemplate?name=" + name + "&pageSize=" + pageSize + "&pageNum=" + pageNum)
+}
+
+export async function useCreateTemplate(data: any) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("admin_api/ads/createTemplate", data);
+}
+
+export async function useUpdateTemplate(id: string, data: any) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("admin_api/ads/updateTemplate/" + id, data);
+}
+
+
+export async function useDeleteTemplate(id: string) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("admin_api/ads/deleteTemplate/" + id)
+}
+
+export async function useGetTemplate(id: string) {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: AdsSizeType
+    }>("admin_api/ads/getTemplate/" + id);
+}
