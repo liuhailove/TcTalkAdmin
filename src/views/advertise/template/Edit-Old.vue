@@ -8,27 +8,17 @@
         <el-input v-model="adsTemplates.name"></el-input>
       </el-form-item>
       <el-form-item label="模版Code：" prop="code">
-        <el-input
-            type="textarea"
+        <ckeditor
             v-model="adsTemplates.code"
-            placeholder="输入模版code"
-            rows="5"
-            maxlength="1024"
-            show-word-limit
+            :editor="editor"
+            :config="editorConfig"
         />
       </el-form-item>
       <el-form-item label="element：" prop="element">
         <el-input v-model="adsTemplates.element"></el-input>
       </el-form-item>
       <el-form-item label="占位符：" prop="placeholders">
-        <el-input
-            type="textarea"
-            v-model="adsTemplates.placeholders"
-            placeholder="占位符描述"
-            rows="5"
-            maxlength="1024"
-            show-word-limit
-        />
+        <el-input v-model="adsTemplates.placeholders"></el-input>
       </el-form-item>
       <el-form-item label="备注：" prop="remark">
         <el-input v-model="adsTemplates.remark"></el-input>
@@ -42,6 +32,44 @@
 </template>
 
 <script setup lang="ts">
+import {
+  Bold,
+  Italic,
+  Strikethrough,
+  Subscript,
+  Superscript,
+  Code,
+  FontColor,
+  FontBackgroundColor,
+  FontFamily,
+  FontSize,
+  Heading,
+  Link,
+  BlockQuote,
+  CodeBlock,
+  List,
+  TodoList,
+  Indent,
+  Undo,
+  Essentials,
+  Paragraph,
+  ClassicEditor,
+  Image,
+  ImageInsert,
+  ImageCaption,
+  ImageUpload,
+  ImageToolbar,
+  ImageStyle,
+  ImageResize,
+  Table,
+  TableToolbar,
+  TextTransformation,
+  Alignment,
+  SourceEditing,
+} from 'ckeditor5'; // 移除了 SlashCommand 和 premium features
+import {Ckeditor} from '@ckeditor/ckeditor5-vue';
+
+import 'ckeditor5/ckeditor5.css';
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {ElMessage, ElMessageBox} from "element-plus";
@@ -73,6 +101,32 @@ const rules = ref({
 
 const adsTemplatesFormRef = ref(null);
 const adsTemplates = ref(Object.assign({}, defaultAdsTemplate));
+
+// 定义编辑器的实例和配置
+const editor = ClassicEditor;
+
+const editorConfig = {
+  plugins: [Bold, Essentials, Italic, Paragraph, Undo, Italic, Strikethrough, Subscript, Superscript, Code, FontColor, FontBackgroundColor,
+    FontFamily, FontSize, Heading, Link, BlockQuote, CodeBlock, List, TodoList,
+    Indent, Image, ImageInsert, ImageCaption, ImageUpload, ImageToolbar, ImageStyle, ImageResize,
+    Table, TableToolbar, TextTransformation, Alignment, SourceEditing], // 引入需要的插件
+  toolbar: {
+    items: [
+      'undo', 'redo', '|',
+      'heading', '|',
+      'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor', '|',
+      'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code', '|',
+      'link', 'uploadImage', 'blockQuote', 'codeBlock', '|',
+      'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent', '|',
+      'imageInsert', 'blockQuote', 'insertTable', 'mediaEmbed', 'sourceEditing'
+    ]
+  },
+  startupMode: 'source', // 使编辑器默认以源码形式显示
+  styles: {
+    height: '300px', // 控制编辑器的高度
+    width: '100%'    // 可选：控制编辑器的宽度
+  },
+};
 
 onMounted(() => {
   if (isEdit) {

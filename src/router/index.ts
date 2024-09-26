@@ -159,7 +159,7 @@ export const AsyncRouterMap = [
             {
                 path: 'adsList',
                 name: Pages.adsList,
-                component: () => import('@/views/advertise/channel/Index.vue'),
+                component: () => import('@/views/advertise/ad/Index.vue'),
                 meta: {title: '广告列表', icon: 'advertise-channel'},
             },
             {
@@ -193,6 +193,13 @@ export const AsyncRouterMap = [
                 name: Pages.addTemplate,
                 component: () => import('@/views/advertise/template/Edit.vue'),
                 meta: {title: '添加广告模版', icon: 'advertise-channel'},
+                hidden: true
+            },
+            {
+                path: 'editTemplate',
+                name: Pages.editTemplate,
+                component: () => import('@/views/advertise/template/Edit.vue'),
+                meta: {title: '编辑广告模版', icon: 'advertise-channel'},
                 hidden: true
             },
             {

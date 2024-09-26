@@ -61,6 +61,7 @@ export const Pages = {
     addSlot: 'addSlot',
     adsTemplate: 'adsTemplate',
     addTemplate: 'addTemplate',
+    editTemplate: 'editTemplate',
     adsPut: 'adsPut',
     adsSizeType: 'adsSizeType',
     adsShowLog: 'adsShowLog',
