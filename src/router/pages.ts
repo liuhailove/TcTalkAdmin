@@ -57,6 +57,7 @@ export const Pages = {
     adsChannel: 'adsChannel',
     adsList: 'adsList',
     adsSlot: 'adsSlot',
+    addAds: 'addAds',
     editSlot: 'editSlot',
     addSlot: 'addSlot',
     adsTemplate: 'adsTemplate',

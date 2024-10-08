@@ -163,7 +163,7 @@ const handleCurrentChange = (val: number) => {
 }
 
 const handleAdd = () => {
-  router.push({path: '/advertise/addAd', query: {isEdit: 'false'}});
+  router.push({path: '/advertise/addAds', query: {isEdit: 'false'}});
 }
 
 const handleDelete = (row) => {
@@ -183,7 +183,7 @@ const handleDelete = (row) => {
 }
 
 const handleUpdate = (row) => {
-  router.push({path: '/advertise/editAd', query: {id: row.id, isEdit: 'true'}});
+  router.push({path: '/advertise/editAds', query: {id: row.id, isEdit: 'true'}});
 }
 
 const getList = () => {
