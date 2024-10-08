@@ -2,7 +2,7 @@
   <div style="margin-top: 50px">
     <el-form :model="value" :rules="rules" ref="adsInfoForm" label-width="120px" class="form-inner-container"
              size="small">
-      <el-form-item label="广告名称：" prop="name">
+      <el-form-item label="广告投放：" prop="name">
         <el-input v-model="value.name"></el-input>
       </el-form-item>
       <el-form-item label="点击链接：" prop="clickUrl">
