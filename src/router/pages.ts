@@ -66,4 +66,6 @@ export const Pages = {
     adsPut: 'adsPut',
     adsSizeType: 'adsSizeType',
     adsShowLog: 'adsShowLog',
+    ctChannel: 'channel',
+    ctCategory: 'category',
 }

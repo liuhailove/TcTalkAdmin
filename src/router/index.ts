@@ -228,6 +228,27 @@ export const AsyncRouterMap = [
                 meta: {title: '展示日志', icon: 'advertise-channel'},
             },
         ]
+    },
+    {
+        path: '/ct',
+        component: () => import("@/views/layout/Layout.vue"),
+        redirect: '/ct/channel',
+        name:  'ct',
+        meta: {title: '品类', icon: 'category'},
+        children: [
+            {
+                path: 'ctChannel',
+                name: Pages.ctChannel,
+                component: () => import('@/views/category/channel/Index.vue'),
+                meta: {title: '频道列表', icon: 'channel'},
+            },
+            {
+                path: 'ctChannel',
+                name: Pages.ctCategory,
+                component: () => import('@/views/category/category/Index.vue'),
+                meta: {title: '品类列表', icon: 'category'},
+            },
+        ]
     }
 ];
 

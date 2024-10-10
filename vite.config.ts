@@ -30,6 +30,10 @@ export default defineConfig({
                 target: 'http://localhost:9000',
                 changeOrigin: true,
             },
+            '/category_api': {
+                target: 'http://localhost:9000',
+                changeOrigin: true,
+            },
         },
     },
 })
