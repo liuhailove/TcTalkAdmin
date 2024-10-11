@@ -264,6 +264,12 @@ export const AsyncRouterMap = [
                 meta: {title: '广告列表', icon: 'channel'},
             },
             {
+                path: 'home/advertise/add',
+                name: Pages.marketChannelHomeAdvertiseAdd,
+                component: () =>import('@/views/mms/advertise/Add.vue'),
+                meta: {title: '添加广告', icon: 'channel'},
+            },
+            {
                 path: 'ctChannel',
                 name: Pages.ctCategory,
                 component: () => import('@/views/category/category/Index.vue'),

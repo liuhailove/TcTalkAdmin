@@ -341,11 +341,11 @@ const getList = () => {
   });
 }
 const handleAdd = () => {
-  router.push({path: '/sms/addAdvertise'})
+  router.push({path: '/marketing/home/advertise/add'})
 }
 
 const handleUpdate = (row) => {
-  router.push({path: '/sms/updateAdvertise', query: {id: row.id}})
+  router.push({path: '/marketing/updateAdvertise', query: {id: row.id}})
 }
 
 const deleteHomeAdvertise = (ids: Array<string>) => {

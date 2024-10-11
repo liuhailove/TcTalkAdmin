@@ -34,6 +34,10 @@ export default defineConfig({
                 target: 'http://localhost:9000',
                 changeOrigin: true,
             },
+            '/marketing_api': {
+                target: 'http://localhost:9000',
+                changeOrigin: true,
+            },
         },
     },
 })

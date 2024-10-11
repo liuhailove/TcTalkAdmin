@@ -69,5 +69,6 @@ export const Pages = {
     ctChannel: 'channel',
     ctCategory: 'category',
     marketChannelHomeAdvertise: 'marketChannelHomeAdvertise',
+    marketChannelHomeAdvertiseAdd: 'marketChannelHomeAdvertiseAdd',
 
 }

@@ -1,0 +1,119 @@
+<template>
+  <el-card class="form-container" shadow="never">
+    <el-form :model="channelHomeAdvertise"
+             :rules="rules"
+             ref="channelHomeAdvertiseForm"
+             label-width="150px"
+             size="small">
+      <el-form-item label="广告名称：" prop="name">
+        <el-input v-model="channelHomeAdvertise.name" class="input-width"></el-input>
+      </el-form-item>
+      <el-form-item label="广告位置：">
+        <el-select v-model="channelHomeAdvertise.type">
+          <el-option
+              v-for="type in typeOptions"
+              :key="type.value"
+              :label="type.label"
+              :value="type.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="开始时间：" prop="startTime">
+        <el-date-picker
+            type="datetime"
+            placeholder="选择日期"
+            v-model="channelHomeAdvertise.startTime"></el-date-picker>
+      </el-form-item>
+      <el-form-item label="到期时间：" prop="endTime">
+        <el-date-picker
+            type="datetime"
+            placeholder="选择日期"
+            v-model="channelHomeAdvertise.endTime"></el-date-picker>
+      </el-form-item>
+      <el-form-item label="上线/下线：">
+        <el-radio-group v-model="channelHomeAdvertise.status">
+          <el-radio :label="0">下线</el-radio>
+          <el-radio :label="1">上线</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="广告图片：">
+        <single-upload v-model:value="channelHomeAdvertise.pic"></single-upload>
+      </el-form-item>
+      <el-form-item label="排序：">
+        <el-input v-model="channelHomeAdvertise.sort" class="input-width"></el-input>
+      </el-form-item>
+      <el-form-item label="广告链接：" prop="url">
+        <el-input v-model="channelHomeAdvertise.clickUrl" class="input-width"></el-input>
+      </el-form-item>
+      <el-form-item label="广告备注：">
+        <el-input
+            class="input-width"
+            type="textarea"
+            :rows="5"
+            placeholder="请输入内容"
+            v-model="channelHomeAdvertise.note">
+        </el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit('homeAdvertiseFrom')">提交</el-button>
+        <el-button v-if="!isEdit" @click="resetForm('homeAdvertiseFrom')">重置</el-button>
+      </el-form-item>
+    </el-form>
+  </el-card>
+</template>
+
+<script setup lang="ts">
+import {ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import SingleUpload from "@/components/Upload/SingleUpload.vue";
+
+const route = useRoute();
+const router = useRouter();
+const props = defineProps<{
+  isEdit: Boolean
+}>();
+const channelHomeAdvertiseForm = ref(null);
+const rules = ref({
+  name: [
+    {required: true, message: '请输入广告名称', trigger: 'blur'},
+    {min: 2, max: 140, message: '长度在 2 到 140 个字符', trigger: 'blur'}
+  ],
+  url: [
+    {required: true, message: '请输入广告链接', trigger: 'blur'}
+  ],
+  startTime: [
+    {required: true, message: '请选择开始时间', trigger: 'blur'}
+  ],
+  endTime: [
+    {required: true, message: '请选择到期时间', trigger: 'blur'}
+  ],
+  pic: [
+    {required: true, message: '请选择广告图片', trigger: 'blur'}
+  ]
+});
+const defaultTypeOptions = [
+  {
+    label: 'PC首页轮播',
+    value: 0
+  },
+  {
+    label: 'APP首页轮播',
+    value: 1
+  }
+];
+const typeOptions = ref(Object.assign({}, defaultTypeOptions));
+const defaultChannelHomeAdvertise = {
+  name: null,
+  type: 1,
+  pic: null,
+  startTime: null,
+  endTime: null,
+  status: 0,
+  clickUrl: null,
+  note: null,
+  sort: 0
+};
+const channelHomeAdvertise = ref(Object.assign({}, defaultChannelHomeAdvertise));
+
+
+</script>
