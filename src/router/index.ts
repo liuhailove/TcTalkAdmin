@@ -267,7 +267,8 @@ export const AsyncRouterMap = [
                 path: 'home/advertise/add',
                 name: Pages.marketChannelHomeAdvertiseAdd,
                 component: () =>import('@/views/mms/advertise/Add.vue'),
-                meta: {title: '添加广告', icon: 'channel'},
+                meta: {title: '添加广告'},
+                hidden: true
             },
             {
                 path: 'ctChannel',

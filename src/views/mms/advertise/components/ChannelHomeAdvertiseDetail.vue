@@ -18,6 +18,16 @@
           </el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="投放频道：">
+        <el-select v-model="channelHomeAdvertise.channelId">
+          <el-option
+              v-for="type in channelOptions"
+              :key="type.value"
+              :label="type.label"
+              :value="type.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="开始时间：" prop="startTime">
         <el-date-picker
             type="datetime"
@@ -63,9 +73,10 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import SingleUpload from "@/components/Upload/SingleUpload.vue";
+import {useFetchChannelAll} from "@/api/category_api.ts";
 
 const route = useRoute();
 const router = useRouter();
@@ -111,9 +122,29 @@ const defaultChannelHomeAdvertise = {
   status: 0,
   clickUrl: null,
   note: null,
-  sort: 0
+  sort: 0,
+  channelId: null,
 };
 const channelHomeAdvertise = ref(Object.assign({}, defaultChannelHomeAdvertise));
+const listLoading = ref(false);
+const channelOptions = ref([]);
+const getChannelList = () => {
+  listLoading.value = true;
+  useFetchChannelAll().then(response => {
+    listLoading.value = false;
+    channelOptions.value = [];
+    let channelList = response.data;
+    for (let i = 0; i < channelList.length; i++) {
+      channelOptions.value.push({label: channelList[i].name, value: channelList[i].id});
+    }
+  });
+}
 
+onMounted(() => {
+  getChannelList();
+  if (props.isEdit) {
+
+  }
+})
 
 </script>
