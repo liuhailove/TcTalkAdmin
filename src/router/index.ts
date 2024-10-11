@@ -233,7 +233,7 @@ export const AsyncRouterMap = [
         path: '/ct',
         component: () => import("@/views/layout/Layout.vue"),
         redirect: '/ct/channel',
-        name:  'ct',
+        name: 'ct',
         meta: {title: '品类', icon: 'category'},
         children: [
             {
@@ -249,7 +249,28 @@ export const AsyncRouterMap = [
                 meta: {title: '品类列表', icon: 'category'},
             },
         ]
-    }
+    },
+    {
+        path: '/marketing',
+        component: () => import("@/views/layout/Layout.vue"),
+        redirect: '/marketing/home/advertise/list',
+        name: 'marketing',
+        meta: {title: '营销-new', icon: 'marketing'},
+        children: [
+            {
+                path: 'home/advertise/list',
+                name: Pages.marketChannelHomeAdvertise,
+                component: () => import('@/views/mms/advertise/Index.vue'),
+                meta: {title: '广告列表', icon: 'channel'},
+            },
+            {
+                path: 'ctChannel',
+                name: Pages.ctCategory,
+                component: () => import('@/views/category/category/Index.vue'),
+                meta: {title: '品类列表', icon: 'category'},
+            },
+        ]
+    },
 ];
 
 const router = createRouter({

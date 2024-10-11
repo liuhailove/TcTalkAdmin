@@ -67,16 +67,20 @@
           <template #default="scope">{{ formatDateTime(scope.row.createTime) }}</template>
         </el-table-column>
         <el-table-column label="操作" width="140" align="center">
+
           <template #default="scope">
-            <el-button size="small"
-                       type="text"
-                       @click="handleUpdate(scope.row)">
-              编辑
-            </el-button>
-            <el-button size="small"
-                       type="text"
-                       @click="handleDelete(scope.row)">删除
-            </el-button>
+            <div v-if="!(scope.row.urlPath==='/live' || scope.row.urlPath==='/recommend' || scope.row.urlPath==='/member')">
+
+              <el-button size="small"
+                         type="text"
+                         @click="handleUpdate(scope.row)">
+                编辑
+              </el-button>
+              <el-button size="small"
+                         type="text"
+                         @click="handleDelete(scope.row)">删除
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>

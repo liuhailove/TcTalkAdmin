@@ -13,6 +13,14 @@ export async function useFetchChannelList(name: string, pageSize: number, pageNu
     }>("category_api/ct/channel/list?name=" + name + "&pageSize=" + pageSize + "&pageNum=" + pageNum)
 }
 
+export async function useFetchChannelAll() {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: Array<CtChannel>
+    }>("category_api/ct/channel/listAll");
+}
+
 export async function useCreateChannel(data: any) {
     return await http.post<{
         code: number,
@@ -35,5 +43,5 @@ export async function useDeleteChannel(id: string) {
         code: number,
         message: string,
         data: number,
-    }>("category_api/ct/delete/" + id)
+    }>("category_api/ct/channel/delete/" + id)
 }

@@ -80,7 +80,7 @@
           @current-change="handleCurrentChange"
           layout="total, sizes,prev, pager, next,jumper"
           :page-size="listQuery.pageSize"
-          :page-sizes="[10,15,20]"
+          :page-sizes="[10,20,50]"
           :current-page.sync="listQuery.pageNum"
           :total="total">
       </el-pagination>
@@ -103,7 +103,7 @@ const total = ref(null);
 const listLoading = ref(true);
 const listQuery = {
   pageNum: 1,
-  pageSize: 5
+  pageSize: 10
 };
 const parentId = ref("0");
 
