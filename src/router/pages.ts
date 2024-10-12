@@ -70,5 +70,6 @@ export const Pages = {
     ctCategory: 'category',
     marketChannelHomeAdvertise: 'marketChannelHomeAdvertise',
     marketChannelHomeAdvertiseAdd: 'marketChannelHomeAdvertiseAdd',
+    marketChannelHomeAdvertiseUpdate: 'marketChannelHomeAdvertiseUpdate',
 
 }

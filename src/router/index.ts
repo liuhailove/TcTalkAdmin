@@ -271,10 +271,11 @@ export const AsyncRouterMap = [
                 hidden: true
             },
             {
-                path: 'ctChannel',
-                name: Pages.ctCategory,
-                component: () => import('@/views/category/category/Index.vue'),
-                meta: {title: '品类列表', icon: 'category'},
+                path: 'home/advertise/update',
+                name: Pages.marketChannelHomeAdvertiseUpdate,
+                component: () =>import('@/views/mms/advertise/Update.vue'),
+                meta: {title: '修改广告'},
+                hidden: true
             },
         ]
     },

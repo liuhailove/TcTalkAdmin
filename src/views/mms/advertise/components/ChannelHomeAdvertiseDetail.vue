@@ -19,7 +19,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="投放频道：">
-        <el-select v-model="channelHomeAdvertise.channelType" @change="handleChannelChange">
+        <el-select v-model="channelType" @change="handleChannelChange">
           <el-option
               v-for="type in channelOptions"
               :key="type.value"
@@ -90,7 +90,11 @@ import {useRoute, useRouter} from "vue-router";
 import SingleUpload from "@/components/Upload/SingleUpload.vue";
 import {useFetchChannelAll} from "@/api/category_api.ts";
 import {ElMessage, ElMessageBox} from "element-plus";
-import {useCreateChannelHomeAdvertise, useUpdateChannelHomeAdvertise} from "@/api/marketing_api.ts";
+import {
+  useCreateChannelHomeAdvertise,
+  useGetChannelHomeAdvertise,
+  useUpdateChannelHomeAdvertise
+} from "@/api/marketing_api.ts";
 
 const route = useRoute();
 const router = useRouter();
@@ -139,13 +143,13 @@ const defaultChannelHomeAdvertise = {
   sort: 0,
   channelId: null,
   channelName: null,
-  channelType: {
-    value: null,
-    label: null,
-  },
   showMax: null,
   dayTimes: null,
 };
+const channelType = ref({
+  value: null,
+  label: null,
+});
 const channelHomeAdvertise = ref(Object.assign({}, defaultChannelHomeAdvertise));
 const listLoading = ref(false);
 const channelOptions = ref([]);
@@ -164,7 +168,9 @@ const getChannelList = () => {
 onMounted(() => {
   getChannelList();
   if (props.isEdit) {
-
+    useGetChannelHomeAdvertise(route.query.id as string).then(res => {
+      channelHomeAdvertise.value = res.data;
+    })
   }
 })
 
@@ -214,7 +220,7 @@ const resetForm = () => {
 }
 
 const handleChannelChange = (selectedChannelType) => {
-  channelHomeAdvertise.value.channelType = {
+  channelType.value = {
     value: selectedChannelType.value,
     label: selectedChannelType.label,
   };

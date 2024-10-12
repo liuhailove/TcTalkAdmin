@@ -49,5 +49,5 @@ export async function useUpdateChannelHomeAdvertise(id: string, data: any) {
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/home/advertise/update/" + id, data);
+    }>("marketing_api/marketing/home/advertise/update/" + id, data);
 }

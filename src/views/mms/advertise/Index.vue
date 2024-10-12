@@ -23,7 +23,7 @@
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
           <el-form-item label="广告名称：">
-            <el-input v-model="listQuery.name" class="input-width" placeholder="广告名称"></el-input>
+            <el-input v-model="listQuery.name" class="input-width" placeholder="广告名称" clearable></el-input>
           </el-form-item>
           <el-form-item label="广告位置：">
             <el-select v-model="listQuery.type" placeholder="全部" clearable class="input-width">
@@ -184,7 +184,7 @@ import {ElMessage, ElMessageBox} from "element-plus";
 import {
   useDeleteChannelHomeAdvertise,
   useFetchChannelHomeAdvertiseList,
-  useUpdateChannelHomeAdvertise
+  useUpdateChannelHomeAdvertiseStatus
 } from "@/api/marketing_api.ts";
 import {useFetchChannelAll} from "@/api/category_api.ts";
 
@@ -283,13 +283,14 @@ const handleUpdateStatus = (row) => {
     cancelButtonText: '取消',
     type: 'warning',
   }).then(() => {
-    useUpdateChannelHomeAdvertise(row.id, row.status).then(() => {
+    useUpdateChannelHomeAdvertiseStatus(row.id, row.status).then(() => {
       ElMessage({
         type: 'success',
         message: '修改成功!',
       });
+      getList();
     });
-    getList();
+
   }).catch(() => {
     ElMessage({
       type: 'success',
@@ -345,7 +346,7 @@ const handleAdd = () => {
 }
 
 const handleUpdate = (row) => {
-  router.push({path: '/marketing/updateAdvertise', query: {id: row.id}})
+  router.push({path: '/marketing/home/advertise/update', query: {id: row.id}})
 }
 
 const deleteHomeAdvertise = (ids: Array<string>) => {
