@@ -262,11 +262,11 @@ const getList = () => {
   });
 }
 const handleAdd = () => {
-  router.push({path: '/marketing/flashSession/add'})
+  router.push({path: '/mms/flashSession/add'})
 }
 
 const handleUpdate = (row) => {
-  router.push({path: '/marketing/flashSession/update', query: {id: row.id}})
+  router.push({path: '/mms/flashSession/update', query: {id: row.id}})
 }
 
 

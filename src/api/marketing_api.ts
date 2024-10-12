@@ -158,3 +158,11 @@ export async function useUpdateFlashPromotionSession(id: string, data: any) {
         data: number,
     }>("marketing_api/mms/flashSession/update/" + id, data);
 }
+
+export async function useFetchFlashPromotionSessionSelectList(flashPromotionId: string) {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: number,
+    }>("marketing_api/mms/flashSession/selectList/" + flashPromotionId);
+}

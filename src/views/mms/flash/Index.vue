@@ -319,7 +319,7 @@ const deleteFlashPromotion = (ids: Array<string>) => {
 }
 
 const handleSelectSession = (row) => {
-  router.push({path: '/mms/selectionSession', query: {flashPromotionId: row.id}})
+  router.push({path: '/mms/flash/selectSession', query: {flashPromotionId: row.id}})
 }
 </script>
 
