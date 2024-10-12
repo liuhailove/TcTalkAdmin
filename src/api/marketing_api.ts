@@ -10,7 +10,7 @@ export async function useFetchChannelHomeAdvertiseList(params: any) {
             list: Array<MmsHomeAdvertise>,
             total: number,
         },
-    }>("marketing_api/marketing/home/advertise/list", params)
+    }>("marketing_api/mms/home/advertise/list", params)
 }
 
 export async function useCreateChannelHomeAdvertise(data: any) {
@@ -18,7 +18,7 @@ export async function useCreateChannelHomeAdvertise(data: any) {
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/home/advertise/create", data);
+    }>("marketing_api/mms/home/advertise/create", data);
 }
 
 export async function useUpdateChannelHomeAdvertiseStatus(id: string, status: number) {
@@ -26,7 +26,7 @@ export async function useUpdateChannelHomeAdvertiseStatus(id: string, status: nu
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/home/advertise/update/status/" + id + "?status=" + status);
+    }>("marketing_api/mms/home/advertise/update/status/" + id + "?status=" + status);
 }
 
 export async function useDeleteChannelHomeAdvertise(ids: Array<string>) {
@@ -34,7 +34,7 @@ export async function useDeleteChannelHomeAdvertise(ids: Array<string>) {
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/home/advertise/delete?ids=" + ids);
+    }>("marketing_api/mms/home/advertise/delete?ids=" + ids);
 }
 
 export async function useGetChannelHomeAdvertise(id: string) {
@@ -42,7 +42,7 @@ export async function useGetChannelHomeAdvertise(id: string) {
         code: number,
         message: string,
         data: MmsHomeAdvertise,
-    }>("marketing_api/marketing/home/advertise/" + id);
+    }>("marketing_api/mms/home/advertise/" + id);
 }
 
 export async function useUpdateChannelHomeAdvertise(id: string, data: any) {
@@ -50,7 +50,7 @@ export async function useUpdateChannelHomeAdvertise(id: string, data: any) {
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/home/advertise/update/" + id, data);
+    }>("marketing_api/mms/home/advertise/update/" + id, data);
 }
 
 /**************************秒杀活动****************************/
@@ -63,7 +63,7 @@ export async function useFetchFlashPromotionList(params: any) {
             list: Array<MmsFlashPromotion>,
             total: number,
         },
-    }>("marketing_api/marketing/flash/promotion/list", params)
+    }>("marketing_api/mms/flash/list", params)
 }
 
 export async function useCreateFlashPromotion(data: any) {
@@ -71,7 +71,7 @@ export async function useCreateFlashPromotion(data: any) {
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/flash/promotion/create", data);
+    }>("marketing_api/mms/flash/create", data);
 }
 
 export async function useUpdateFlashPromotionStatus(id: string, status: number) {
@@ -79,7 +79,7 @@ export async function useUpdateFlashPromotionStatus(id: string, status: number) 
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/flash/promotion/update/status/" + id + "?status=" + status);
+    }>("marketing_api/mms/flash/update/status/" + id + "?status=" + status);
 }
 
 export async function useDeleteFlashPromotion(ids: Array<string>) {
@@ -87,7 +87,7 @@ export async function useDeleteFlashPromotion(ids: Array<string>) {
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/flash/promotion/delete?ids=" + ids);
+    }>("marketing_api/mms/flash/delete?ids=" + ids);
 }
 
 export async function useGetFlashPromotion(id: string) {
@@ -95,7 +95,7 @@ export async function useGetFlashPromotion(id: string) {
         code: number,
         message: string,
         data: MmsFlashPromotion,
-    }>("marketing_api/marketing/flash/promotion/" + id);
+    }>("marketing_api/mms/flash/" + id);
 }
 
 export async function useUpdateFlashPromotion(id: string, data: any) {
@@ -103,7 +103,7 @@ export async function useUpdateFlashPromotion(id: string, data: any) {
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/flash/promotion/update/" + id, data);
+    }>("marketing_api/mms/flash/update/" + id, data);
 }
 
 /**************************秒杀活动时间段****************************/
@@ -116,7 +116,7 @@ export async function useFetchFlashPromotionSessionList(params: any) {
             list: Array<MmsFlashPromotionSession>,
             total: number,
         },
-    }>("marketing_api/marketing/flash/promotion/session/list", params)
+    }>("marketing_api/mms/flashSession/list", params)
 }
 
 export async function useCreateFlashPromotionSession(data: any) {
@@ -124,7 +124,7 @@ export async function useCreateFlashPromotionSession(data: any) {
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/flash/promotion/session/create", data);
+    }>("marketing_api/mms/flashSession/create", data);
 }
 
 export async function useUpdateFlashPromotionSessionStatus(id: string, status: number) {
@@ -132,7 +132,7 @@ export async function useUpdateFlashPromotionSessionStatus(id: string, status: n
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/flash/promotion/session/update/status/" + id + "?status=" + status);
+    }>("marketing_api/mms/flashSession/update/status/" + id + "?status=" + status);
 }
 
 export async function useDeleteFlashPromotionSession(ids: Array<string>) {
@@ -140,7 +140,7 @@ export async function useDeleteFlashPromotionSession(ids: Array<string>) {
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/flash/promotion/session/delete?ids=" + ids);
+    }>("marketing_api/mms/flashSession/delete?ids=" + ids);
 }
 
 export async function useGetFlashPromotionSession(id: string) {
@@ -148,7 +148,7 @@ export async function useGetFlashPromotionSession(id: string) {
         code: number,
         message: string,
         data: MmsFlashPromotionSession,
-    }>("marketing_api/marketing/flash/promotion/session/" + id);
+    }>("marketing_api/mms/flashSession/session/" + id);
 }
 
 export async function useUpdateFlashPromotionSession(id: string, data: any) {
@@ -156,5 +156,5 @@ export async function useUpdateFlashPromotionSession(id: string, data: any) {
         code: number,
         message: string,
         data: number,
-    }>("marketing_api/marketing/flash/promotion/session/update/" + id, data);
+    }>("marketing_api/mms/flashSession/update/" + id, data);
 }

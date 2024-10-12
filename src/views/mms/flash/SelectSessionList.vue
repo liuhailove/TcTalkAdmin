@@ -1,3 +1,4 @@
+
 <template>
   <div class="app-container">
     <el-card class="filter-container" shadow="never">
@@ -22,36 +23,8 @@
       </div>
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-          <el-form-item label="广告名称：">
-            <el-input v-model="listQuery.name" class="input-width" placeholder="广告名称" clearable></el-input>
-          </el-form-item>
-          <el-form-item label="广告位置：">
-            <el-select v-model="listQuery.type" placeholder="全部" clearable class="input-width">
-              <el-option v-for="item in typeOptions"
-                         :key="item.value"
-                         :label="item.label"
-                         :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="到期时间：">
-            <el-date-picker
-                class="input-width"
-                v-model="listQuery.endTime"
-                value-format="YYYY-MM-DD"
-                type="date"
-                placeholder="请选择时间">
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item label="频道名称：">
-            <el-select v-model="listQuery.channelId" placeholder="请选择频道" clearable class="input-width">
-              <el-option
-                  v-for="item in channelOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
-            </el-select>
+          <el-form-item label="时间段名称：">
+            <el-input v-model="listQuery.name" class="input-width" placeholder="时间段名称" clearable></el-input>
           </el-form-item>
           <el-form-item label="上线状态：">
             <el-select v-model="listQuery.status" placeholder="全部" clearable class="input-width">
@@ -68,7 +41,7 @@
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
-      <el-button size="small" class="btn-add" @click="handleAdd()">添加广告</el-button>
+      <el-button size="small" class="btn-add" @click="handleAdd()" style="margin-left: 20px">添加</el-button>
     </el-card>
     <div class="table-container">
       <el-table ref="homeAdvertiseTable"
@@ -80,23 +53,18 @@
         <el-table-column label="编号" width="80" align="center">
           <template #default="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="广告名称" align="center">
+        <el-table-column label="秒杀时间段名称" align="center">
           <template #default="scope">{{ scope.row.name }}</template>
         </el-table-column>
-        <el-table-column label="广告位置" width="120" align="center">
-          <template #default="scope">{{ formatType(scope.row.type) }}</template>
-        </el-table-column>
-        <el-table-column label="广告图片" width="120" align="center">
-          <template #default="scope"><img style="height: 80px" :src="scope.row.pic"></template>
-        </el-table-column>
-        <el-table-column label="时间" width="230" align="center">
+        <el-table-column label="每日开始时间" width="230" align="center">
           <template #default="scope">
-            <p>开始时间：{{ formatDateTime(scope.row.startTime) }}</p>
-            <p>到期时间：{{ formatDateTime(scope.row.endTime) }}</p>
+            {{ formatDateTime(scope.row.startTime) }}
           </template>
         </el-table-column>
-        <el-table-column label="频道名称" align="center">
-          <template #default="scope">{{ scope.row.channelName }}</template>
+        <el-table-column label="每日结束时间" width="230" align="center">
+          <template #default="scope">
+            {{ formatDateTime(scope.row.endTime) }}
+          </template>
         </el-table-column>
         <el-table-column label="上线/下线" width="100" align="center">
           <template #default="scope">
@@ -107,23 +75,6 @@
                 v-model="scope.row.status">
             </el-switch>
           </template>
-        </el-table-column>
-        <el-table-column label="审核状态" width="100" align="center">
-          <template #default="scope">
-            <p>{{ (scope.row.auditStatus === 1) ? '审核通过' : '未审核' }}</p>
-            <p>
-              <el-button
-                  type="text"
-                  @click="handleShowAuditDetail(scope.row)">审核详情
-              </el-button>
-            </p>
-          </template>
-        </el-table-column>
-        <el-table-column label="点击次数" width="100" align="center">
-          <template #default="scope">{{ scope.row.clickCount }}</template>
-        </el-table-column>
-        <el-table-column label="生成订单" width="100" align="center">
-          <template #default="scope">{{ scope.row.orderCount }}</template>
         </el-table-column>
         <el-table-column label="操作" width="140" align="center">
           <template #default="scope">
@@ -182,11 +133,9 @@ import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {
-  useDeleteChannelHomeAdvertise,
-  useFetchChannelHomeAdvertiseList,
-  useUpdateChannelHomeAdvertiseStatus
+  useDeleteFlashPromotionSession,
+  useFetchFlashPromotionSessionList, useUpdateFlashPromotionSessionStatus,
 } from "@/api/marketing_api.ts";
-import {useFetchChannelAll} from "@/api/category_api.ts";
 
 const router = useRouter();
 
@@ -194,23 +143,10 @@ const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
   name: null,
-  type: null,
   endTime: null,
   channelId: null,
   status: null,
 };
-
-const channelOptions = ref([]);
-const defaultTypeOptions = [
-  {
-    label: 'PC首页轮播',
-    value: 0
-  },
-  {
-    label: 'APP首页轮播',
-    value: 1
-  }
-];
 const defaultStatusOptions = [
   {
     label: '上线',
@@ -222,7 +158,6 @@ const defaultStatusOptions = [
   }
 ];
 const listQuery = ref(Object.assign({}, defaultListQuery));
-const typeOptions = ref(Object.assign({}, defaultTypeOptions));
 const statusOptions = ref(Object.assign({}, defaultStatusOptions));
 const list = ref(null);
 const total = ref(0);
@@ -235,22 +170,13 @@ const operates = ref([{
 const operateType = ref(null);
 onMounted(() => {
   getList();
-  getChannelList();
 })
-
-const formatType = (type: number) => {
-  if (type === 1) {
-    return 'APP首页轮播';
-  } else {
-    return 'PC首页轮播';
-  }
-}
 const formatDateTime = (time: string) => {
   if (time == null || time === '') {
     return 'N/A';
   }
   let date = new Date(time);
-  return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+  return formatDate(date, 'hh:mm:ss')
 }
 
 const handleResetSearch = () => {
@@ -283,7 +209,7 @@ const handleUpdateStatus = (row) => {
     cancelButtonText: '取消',
     type: 'warning',
   }).then(() => {
-    useUpdateChannelHomeAdvertiseStatus(row.id, row.status).then(() => {
+    useUpdateFlashPromotionSessionStatus(row.id, row.status).then(() => {
       ElMessage({
         type: 'success',
         message: '修改成功!',
@@ -301,13 +227,8 @@ const handleUpdateStatus = (row) => {
 }
 
 const handleDelete = (row) => {
-  deleteHomeAdvertise(row.id);
+  deleteFlashPromotionSession(row.id);
 }
-
-const handleShowAuditDetail = (row) => {
-
-}
-
 const handleBatchOperate = () => {
   if (multipleSelection.value.length < 1) {
     ElMessage({
@@ -323,7 +244,7 @@ const handleBatchOperate = () => {
   }
   if (operateType.value === 0) {
     // 删除
-    deleteHomeAdvertise(ids);
+    deleteFlashPromotionSession(ids);
   } else {
     ElMessage({
       type: 'warning',
@@ -335,27 +256,28 @@ const handleBatchOperate = () => {
 
 const getList = () => {
   listLoading.value = true;
-  useFetchChannelHomeAdvertiseList(listQuery.value).then(response => {
+  useFetchFlashPromotionSessionList(listQuery.value).then(response => {
     listLoading.value = false;
     list.value = response.data.list;
     total.value = Number(response.data.total);
   });
 }
 const handleAdd = () => {
-  router.push({path: '/mms/home/advertise/add'})
+  router.push({path: '/marketing/flashSession/add'})
 }
 
 const handleUpdate = (row) => {
-  router.push({path: '/mms/home/advertise/update', query: {id: row.id}})
+  router.push({path: '/marketing/flashSession/update', query: {id: row.id}})
 }
 
-const deleteHomeAdvertise = (ids: Array<string>) => {
-  ElMessageBox.confirm('是否要删除该广告?', '提示', {
+
+const deleteFlashPromotionSession = (ids: Array<string>) => {
+  ElMessageBox.confirm('是否要删除该秒杀活动?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
-    useDeleteChannelHomeAdvertise(ids).then(() => {
+    useDeleteFlashPromotionSession(ids).then(() => {
       getList();
       ElMessage({
         type: 'success',
@@ -364,18 +286,6 @@ const deleteHomeAdvertise = (ids: Array<string>) => {
       });
     });
   })
-}
-
-const getChannelList = () => {
-  listLoading.value = true;
-  useFetchChannelAll().then(response => {
-    listLoading.value = false;
-    channelOptions.value = [];
-    let channelList = response.data;
-    for (let i = 0; i < channelList.length; i++) {
-      channelOptions.value.push({label: channelList[i].name, value: channelList[i].id});
-    }
-  });
 }
 </script>
 

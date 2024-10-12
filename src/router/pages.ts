@@ -74,6 +74,7 @@ export const Pages = {
     marketFlash: 'marketFlash',
     marketFlashAdd: 'marketFlashAdd',
     marketFlashUpdate: 'marketFlashUpdate',
+    marketFlashSelectSession: 'marketFlashSelectSession',
     marketFlashSession: 'marketFlashSession',
     marketFlashSessionAdd: 'marketFlashSessionAdd',
     marketFlashSessionUpdate: 'marketFlashSessionUpdate',

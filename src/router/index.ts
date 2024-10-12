@@ -251,9 +251,9 @@ export const AsyncRouterMap = [
         ]
     },
     {
-        path: '/marketing',
+        path: '/mms',
         component: () => import("@/views/layout/Layout.vue"),
-        redirect: '/marketing/home/advertise/list',
+        redirect: '/mms/home/advertise/list',
         name: 'marketing',
         meta: {title: '营销', icon: 'marketing'},
         children: [
@@ -307,6 +307,13 @@ export const AsyncRouterMap = [
                 name: Pages.marketFlashUpdate,
                 component: () => import('@/views/mms/flash/Update.vue'),
                 meta: {title: '修改秒杀活动'},
+                hidden: true
+            },
+            {
+                path: 'flash/selectSession',
+                name: Pages.marketFlashSelectSession,
+                component: () => import('@/views/mms/flash/SelectSessionList.vue'),
+                meta: {title: '秒杀时间段选择'},
                 hidden: true
             },
             {

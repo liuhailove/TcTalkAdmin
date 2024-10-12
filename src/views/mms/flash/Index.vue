@@ -290,15 +290,15 @@ const getList = () => {
   });
 }
 const handleAdd = () => {
-  router.push({path: '/marketing/flash/add'})
+  router.push({path: '/mms/flash/add'})
 }
 
 const handleUpdate = (row) => {
-  router.push({path: '/marketing/flash/update', query: {id: row.id}})
+  router.push({path: '/mms/flash/update', query: {id: row.id}})
 }
 
-const handleShowSessionList=()=>{
-  router.push({path: '/marketing/flashSession/list'})
+const handleShowSessionList = () => {
+  router.push({path: '/mms/flashSession/list'})
 }
 
 const deleteFlashPromotion = (ids: Array<string>) => {
@@ -319,7 +319,7 @@ const deleteFlashPromotion = (ids: Array<string>) => {
 }
 
 const handleSelectSession = (row) => {
-
+  router.push({path: '/mms/selectionSession', query: {flashPromotionId: row.id}})
 }
 </script>
 
