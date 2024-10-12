@@ -19,12 +19,12 @@
         </el-select>
       </el-form-item>
       <el-form-item label="投放频道：">
-        <el-select v-model="channelHomeAdvertise.channelId">
+        <el-select v-model="channelHomeAdvertise.channelType" @change="handleChannelChange">
           <el-option
               v-for="type in channelOptions"
               :key="type.value"
               :label="type.label"
-              :value="type.value">
+              :value="type">
           </el-option>
         </el-select>
       </el-form-item>
@@ -32,13 +32,25 @@
         <el-date-picker
             type="datetime"
             placeholder="选择日期"
-            v-model="channelHomeAdvertise.startTime"></el-date-picker>
+            v-model="channelHomeAdvertise.startTime"
+            format="YYYY-MM-DD HH:mm:ss"
+            value-format="YYYY-MM-DD HH:mm:ss"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item label="到期时间：" prop="endTime">
         <el-date-picker
             type="datetime"
             placeholder="选择日期"
-            v-model="channelHomeAdvertise.endTime"></el-date-picker>
+            v-model="channelHomeAdvertise.endTime"
+            format="YYYY-MM-DD HH:mm:ss"
+            value-format="YYYY-MM-DD HH:mm:ss"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item label="最大展示次数：">
+        <el-input v-model="channelHomeAdvertise.showMax" class="input-width"></el-input>
+      </el-form-item>
+      <el-form-item label="日最大展示次数：">
+        <el-input v-model="channelHomeAdvertise.dayTimes" class="input-width"></el-input>
       </el-form-item>
       <el-form-item label="上线/下线：">
         <el-radio-group v-model="channelHomeAdvertise.status">
@@ -65,8 +77,8 @@
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit('homeAdvertiseFrom')">提交</el-button>
-        <el-button v-if="!isEdit" @click="resetForm('homeAdvertiseFrom')">重置</el-button>
+        <el-button type="primary" @click="onSubmit()">提交</el-button>
+        <el-button v-if="!isEdit" @click="resetForm()">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -77,6 +89,8 @@ import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import SingleUpload from "@/components/Upload/SingleUpload.vue";
 import {useFetchChannelAll} from "@/api/category_api.ts";
+import {ElMessage, ElMessageBox} from "element-plus";
+import {useCreateChannelHomeAdvertise, useUpdateChannelHomeAdvertise} from "@/api/marketing_api.ts";
 
 const route = useRoute();
 const router = useRouter();
@@ -89,7 +103,7 @@ const rules = ref({
     {required: true, message: '请输入广告名称', trigger: 'blur'},
     {min: 2, max: 140, message: '长度在 2 到 140 个字符', trigger: 'blur'}
   ],
-  url: [
+  clickUrl: [
     {required: true, message: '请输入广告链接', trigger: 'blur'}
   ],
   startTime: [
@@ -124,6 +138,13 @@ const defaultChannelHomeAdvertise = {
   note: null,
   sort: 0,
   channelId: null,
+  channelName: null,
+  channelType: {
+    value: null,
+    label: null,
+  },
+  showMax: null,
+  dayTimes: null,
 };
 const channelHomeAdvertise = ref(Object.assign({}, defaultChannelHomeAdvertise));
 const listLoading = ref(false);
@@ -146,5 +167,59 @@ onMounted(() => {
 
   }
 })
+
+const onSubmit = () => {
+  channelHomeAdvertiseForm.value.validate((valid) => {
+    if (valid) {
+      ElMessageBox.confirm('是否提交数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(() => {
+        if (props.isEdit) {
+          useUpdateChannelHomeAdvertise(route.query.id as string, channelHomeAdvertise.value).then(() => {
+            ElMessage({
+              type: 'success',
+              message: '修改成功!',
+              duration: 1000
+            });
+          });
+          router.back();
+        } else {
+          useCreateChannelHomeAdvertise(channelHomeAdvertise.value).then(() => {
+            channelHomeAdvertiseForm.value.resetFields();
+            channelHomeAdvertise.value = Object.assign({}, defaultChannelHomeAdvertise);
+            ElMessage({
+              type: 'success',
+              message: '提交成功!',
+              duration: 1000
+            });
+            router.back();
+          });
+        }
+      });
+    } else {
+      ElMessage({
+        type: 'error',
+        message: '验证失败!',
+        duration: 1000
+      });
+    }
+  });
+}
+
+const resetForm = () => {
+  channelHomeAdvertiseForm.value.resetFields();
+  channelHomeAdvertise.value = Object.assign({}, defaultChannelHomeAdvertise);
+}
+
+const handleChannelChange = (selectedChannelType) => {
+  channelHomeAdvertise.value.channelType = {
+    value: selectedChannelType.value,
+    label: selectedChannelType.label,
+  };
+  channelHomeAdvertise.value.channelId = selectedChannelType.value;
+  channelHomeAdvertise.value.channelName = selectedChannelType.label;
+}
 
 </script>
