@@ -266,14 +266,14 @@ export const AsyncRouterMap = [
             {
                 path: 'home/advertise/add',
                 name: Pages.marketChannelHomeAdvertiseAdd,
-                component: () =>import('@/views/mms/advertise/Add.vue'),
+                component: () => import('@/views/mms/advertise/Add.vue'),
                 meta: {title: '添加广告'},
                 hidden: true
             },
             {
                 path: 'home/advertise/update',
                 name: Pages.marketChannelHomeAdvertiseUpdate,
-                component: () =>import('@/views/mms/advertise/Update.vue'),
+                component: () => import('@/views/mms/advertise/Update.vue'),
                 meta: {title: '修改广告'},
                 hidden: true
             },
@@ -290,23 +290,44 @@ export const AsyncRouterMap = [
                 meta: {title: '人气推荐', icon: 'hot'},
             },
             {
-                path: 'home/flash/list',
+                path: 'flash/list',
                 name: Pages.marketFlash,
                 component: () => import('@/views/mms/flash/Index.vue'),
                 meta: {title: '秒杀活动列表', icon: 'flash'},
             },
             {
-                path: 'flash/promotion/add',
+                path: 'flash/add',
                 name: Pages.marketFlashAdd,
-                component: () =>import('@/views/mms/flash/Add.vue'),
+                component: () => import('@/views/mms/flash/Add.vue'),
                 meta: {title: '添加秒杀活动'},
                 hidden: true
             },
             {
-                path: 'flash/promotion/update',
+                path: 'flash/update',
                 name: Pages.marketFlashUpdate,
-                component: () =>import('@/views/mms/flash/Update.vue'),
+                component: () => import('@/views/mms/flash/Update.vue'),
                 meta: {title: '修改秒杀活动'},
+                hidden: true
+            },
+            {
+                path: 'flashSession/list',
+                name: Pages.marketFlashSession,
+                component: () => import('@/views/mms/flash/SessionList.vue'),
+                meta: {title: '秒杀时间段列表'},
+                hidden: true
+            },
+            {
+                path: 'flashSession/add',
+                name: Pages.marketFlashSessionAdd,
+                component: () => import('@/views/mms/flash/AddSession.vue'),
+                meta: {title: '添加秒杀活动时间段'},
+                hidden: true
+            },
+            {
+                path: 'flashSession/update',
+                name: Pages.marketFlashSessionUpdate,
+                component: () => import('@/views/mms/flash/UpdateSession.vue'),
+                meta: {title: '修改秒杀活动时间段'},
                 hidden: true
             },
         ]

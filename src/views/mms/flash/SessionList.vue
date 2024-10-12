@@ -22,17 +22,8 @@
       </div>
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-          <el-form-item label="活动名称：">
-            <el-input v-model="listQuery.name" class="input-width" placeholder="广告名称" clearable></el-input>
-          </el-form-item>
-          <el-form-item label="到期时间：">
-            <el-date-picker
-                class="input-width"
-                v-model="listQuery.endTime"
-                value-format="YYYY-MM-DD"
-                type="date"
-                placeholder="请选择时间">
-            </el-date-picker>
+          <el-form-item label="时间段名称：">
+            <el-input v-model="listQuery.name" class="input-width" placeholder="时间段名称" clearable></el-input>
           </el-form-item>
           <el-form-item label="上线状态：">
             <el-select v-model="listQuery.status" placeholder="全部" clearable class="input-width">
@@ -49,8 +40,7 @@
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
-      <el-button size="small" class="btn-add" @click="handleAdd()" style="margin-left: 20px">添加活动</el-button>
-      <el-button size="small" class="btn-add" @click="handleShowSessionList()">秒杀活动时间段列表</el-button>
+      <el-button size="small" class="btn-add" @click="handleAdd()" style="margin-left: 20px">添加</el-button>
     </el-card>
     <div class="table-container">
       <el-table ref="homeAdvertiseTable"
@@ -62,13 +52,17 @@
         <el-table-column label="编号" width="80" align="center">
           <template #default="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="活动标题" align="center">
+        <el-table-column label="秒杀时间段名称" align="center">
           <template #default="scope">{{ scope.row.name }}</template>
         </el-table-column>
-        <el-table-column label="活动时间" width="230" align="center">
+        <el-table-column label="每日开始时间" width="230" align="center">
           <template #default="scope">
-            <p>开始时间：{{ formatDateTime(scope.row.startTime) }}</p>
-            <p>到期时间：{{ formatDateTime(scope.row.endTime) }}</p>
+            {{ formatDateTime(scope.row.startTime) }}
+          </template>
+        </el-table-column>
+        <el-table-column label="每日结束时间" width="230" align="center">
+          <template #default="scope">
+            {{ formatDateTime(scope.row.endTime) }}
           </template>
         </el-table-column>
         <el-table-column label="上线/下线" width="100" align="center">
@@ -81,23 +75,8 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column label="审核状态" width="100" align="center">
-          <template #default="scope">
-            <p>{{ (scope.row.auditStatus === 1) ? '审核通过' : '未审核' }}</p>
-            <p>
-              <el-button
-                  type="text"
-                  @click="handleShowAuditDetail(scope.row)">审核详情
-              </el-button>
-            </p>
-          </template>
-        </el-table-column>
         <el-table-column label="操作" width="140" align="center">
           <template #default="scope">
-            <el-button size="small"
-                       type="text"
-                       @click="handleSelectSession(scope.row)">设置商品
-            </el-button>
             <el-button size="small"
                        type="text"
                        @click="handleUpdate(scope.row)">编辑
@@ -153,9 +132,8 @@ import {useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {
-  useDeleteFlashPromotion,
-  useFetchFlashPromotionList,
-  useUpdateFlashPromotionStatus
+  useDeleteFlashPromotionSession,
+  useFetchFlashPromotionSessionList, useUpdateFlashPromotionSessionStatus,
 } from "@/api/marketing_api.ts";
 
 const router = useRouter();
@@ -164,7 +142,6 @@ const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
   name: null,
-  type: null,
   endTime: null,
   channelId: null,
   status: null,
@@ -198,7 +175,7 @@ const formatDateTime = (time: string) => {
     return 'N/A';
   }
   let date = new Date(time);
-  return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+  return formatDate(date, 'hh:mm:ss')
 }
 
 const handleResetSearch = () => {
@@ -231,7 +208,7 @@ const handleUpdateStatus = (row) => {
     cancelButtonText: '取消',
     type: 'warning',
   }).then(() => {
-    useUpdateFlashPromotionStatus(row.id, row.status).then(() => {
+    useUpdateFlashPromotionSessionStatus(row.id, row.status).then(() => {
       ElMessage({
         type: 'success',
         message: '修改成功!',
@@ -249,13 +226,8 @@ const handleUpdateStatus = (row) => {
 }
 
 const handleDelete = (row) => {
-  deleteFlashPromotion(row.id);
+  deleteFlashPromotionSession(row.id);
 }
-
-const handleShowAuditDetail = (row) => {
-
-}
-
 const handleBatchOperate = () => {
   if (multipleSelection.value.length < 1) {
     ElMessage({
@@ -271,7 +243,7 @@ const handleBatchOperate = () => {
   }
   if (operateType.value === 0) {
     // 删除
-    deleteFlashPromotion(ids);
+    deleteFlashPromotionSession(ids);
   } else {
     ElMessage({
       type: 'warning',
@@ -283,31 +255,28 @@ const handleBatchOperate = () => {
 
 const getList = () => {
   listLoading.value = true;
-  useFetchFlashPromotionList(listQuery.value).then(response => {
+  useFetchFlashPromotionSessionList(listQuery.value).then(response => {
     listLoading.value = false;
     list.value = response.data.list;
     total.value = Number(response.data.total);
   });
 }
 const handleAdd = () => {
-  router.push({path: '/marketing/flash/add'})
+  router.push({path: '/marketing/flashSession/add'})
 }
 
 const handleUpdate = (row) => {
-  router.push({path: '/marketing/flash/update', query: {id: row.id}})
+  router.push({path: '/marketing/flashSession/update', query: {id: row.id}})
 }
 
-const handleShowSessionList=()=>{
-  router.push({path: '/marketing/flashSession/list'})
-}
 
-const deleteFlashPromotion = (ids: Array<string>) => {
+const deleteFlashPromotionSession = (ids: Array<string>) => {
   ElMessageBox.confirm('是否要删除该秒杀活动?', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
-    useDeleteFlashPromotion(ids).then(() => {
+    useDeleteFlashPromotionSession(ids).then(() => {
       getList();
       ElMessage({
         type: 'success',
@@ -316,10 +285,6 @@ const deleteFlashPromotion = (ids: Array<string>) => {
       });
     });
   })
-}
-
-const handleSelectSession = (row) => {
-
 }
 </script>
 
