@@ -255,7 +255,7 @@ export const AsyncRouterMap = [
         component: () => import("@/views/layout/Layout.vue"),
         redirect: '/marketing/home/advertise/list',
         name: 'marketing',
-        meta: {title: '营销-new', icon: 'marketing'},
+        meta: {title: '营销', icon: 'marketing'},
         children: [
             {
                 path: 'home/advertise/list',
@@ -275,6 +275,38 @@ export const AsyncRouterMap = [
                 name: Pages.marketChannelHomeAdvertiseUpdate,
                 component: () =>import('@/views/mms/advertise/Update.vue'),
                 meta: {title: '修改广告'},
+                hidden: true
+            },
+            {
+                path: 'home/new/list',
+                name: Pages.marketNew,
+                component: () => import('@/views/mms/advertise/Index.vue'),
+                meta: {title: '新品推荐', icon: 'new'},
+            },
+            {
+                path: 'home/hot/list',
+                name: Pages.marketHot,
+                component: () => import('@/views/mms/advertise/Index.vue'),
+                meta: {title: '人气推荐', icon: 'hot'},
+            },
+            {
+                path: 'home/flash/list',
+                name: Pages.marketFlash,
+                component: () => import('@/views/mms/flash/Index.vue'),
+                meta: {title: '秒杀活动列表', icon: 'flash'},
+            },
+            {
+                path: 'flash/promotion/add',
+                name: Pages.marketFlashAdd,
+                component: () =>import('@/views/mms/flash/Add.vue'),
+                meta: {title: '添加秒杀活动'},
+                hidden: true
+            },
+            {
+                path: 'flash/promotion/update',
+                name: Pages.marketFlashUpdate,
+                component: () =>import('@/views/mms/flash/Update.vue'),
+                meta: {title: '修改秒杀活动'},
                 hidden: true
             },
         ]

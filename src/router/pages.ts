@@ -71,5 +71,9 @@ export const Pages = {
     marketChannelHomeAdvertise: 'marketChannelHomeAdvertise',
     marketChannelHomeAdvertiseAdd: 'marketChannelHomeAdvertiseAdd',
     marketChannelHomeAdvertiseUpdate: 'marketChannelHomeAdvertiseUpdate',
-
+    marketFlash: 'marketFlash',
+    marketFlashAdd: 'marketFlashAdd',
+    marketFlashUpdate: 'marketFlashUpdate',
+    marketNew: 'marketNew',
+    marketHot: 'marketHot',
 }
