@@ -254,7 +254,7 @@ export const AsyncRouterMap = [
         path: '/mms',
         component: () => import("@/views/layout/Layout.vue"),
         redirect: '/mms/home/advertise/list',
-        name: 'marketing',
+        name: 'mms',
         meta: {title: '营销', icon: 'marketing'},
         children: [
             {
@@ -288,6 +288,26 @@ export const AsyncRouterMap = [
                 name: Pages.marketHot,
                 component: () => import('@/views/mms/advertise/Index.vue'),
                 meta: {title: '人气推荐', icon: 'hot'},
+            },
+            {
+                path: 'coupon/list',
+                name: Pages.marketCoupon,
+                component: () => import('@/views/mms/flash/Index.vue'),
+                meta: {title: '优惠券列表', icon: 'coupon'},
+            },
+            {
+                path: 'coupon/add',
+                name: Pages.marketCouponAdd,
+                component: () => import('@/views/mms/flash/Add.vue'),
+                meta: {title: '添加优惠券'},
+                hidden: true
+            },
+            {
+                path: 'coupon/update',
+                name: Pages.marketCouponUpdate,
+                component: () => import('@/views/mms/flash/Update.vue'),
+                meta: {title: '修改优惠券'},
+                hidden: true
             },
             {
                 path: 'flash/list',
@@ -337,6 +357,7 @@ export const AsyncRouterMap = [
                 meta: {title: '修改秒杀活动时间段'},
                 hidden: true
             },
+
         ]
     },
 ];

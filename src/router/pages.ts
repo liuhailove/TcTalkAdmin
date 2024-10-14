@@ -80,4 +80,7 @@ export const Pages = {
     marketFlashSessionUpdate: 'marketFlashSessionUpdate',
     marketNew: 'marketNew',
     marketHot: 'marketHot',
+    marketCoupon: 'marketCoupon',
+    marketCouponAdd: 'marketCouponAdd',
+    marketCouponUpdate: 'marketCouponUpdate',
 }
