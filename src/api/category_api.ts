@@ -1,6 +1,7 @@
 import http from "../utils/http.ts";
 import {CtChannel} from "../model/ct_channel.ts";
 import {CtTag} from "../model/ct_tag.ts";
+import {CategoryWithChildrenItem, CtCategory} from "../model/ct_category.ts";
 
 
 export async function useFetchChannelList(name: string, pageSize: number, pageNum: number) {
@@ -90,4 +91,73 @@ export async function useDeleteTag(id: string) {
         message: string,
         data: number,
     }>("category_api/ct/tag/delete/" + id)
+}
+
+/**************************category****************************/
+export async function useFetchCategoryList(parentId: string, nameKeyword: string, pageSize: number, pageNum: number) {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: {
+            list: Array<CtCategory>,
+            total: string,
+        },
+    }>("category_api/ct/category/list/" + parentId + "?nameKeyword=" + nameKeyword + "&pageSize=" + pageSize + "&pageNum=" + pageNum)
+}
+
+export async function useCreateCategory(data: any) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("category_api/ct/category/create", data);
+}
+
+export async function useUpdateCategory(id: string, data: any) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("category_api/ct/category/update/" + id, data);
+}
+
+
+export async function useDeleteCategory(id: string) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("category_api/ct/category/delete/" + id)
+}
+
+export async function useGetCategory(id: string) {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: CtCategory,
+    }>("category_api/ct/category/" + id);
+}
+
+export async function useUpdateNavStatus(id: Array<string>, navStatus: number) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("category_api/ct/category/update/navStatus?ids=" + ids + "&navStatus=" + navStatus);
+}
+
+export async function useUpdateShowStatus(id: Array<string>, showStatus: number) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: Array<CategoryWithChildrenItem>,
+    }>("category_api/ct/category/update/showStatus?ids=" + ids + "&hidden=" + showStatus);
+}
+
+export async function useListWithChildren() {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: number,
+    }>("category_api/ct/category/list/withChildren");
 }

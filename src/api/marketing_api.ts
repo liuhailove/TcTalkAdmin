@@ -2,6 +2,8 @@ import http from "../utils/http.ts";
 import {MmsHomeAdvertise} from "../model/mms_home_advertise.ts";
 import {MmsFlashPromotion, MmsFlashPromotionSession} from "../model/mms_flash_promotion.ts";
 import {MmsCouponParam} from "../model/mms_coupon.ts";
+import {AdsChannel} from "../model/ads_channel.ts";
+import {CtCategory} from "../model/ct_category.ts";
 
 export async function useFetchChannelHomeAdvertiseList(params: any) {
     return await http.get<{
