@@ -68,6 +68,7 @@ export const Pages = {
     adsShowLog: 'adsShowLog',
     ctChannel: 'channel',
     ctCategory: 'category',
+    ctTag: 'ctTag',
     marketChannelHomeAdvertise: 'marketChannelHomeAdvertise',
     marketChannelHomeAdvertiseAdd: 'marketChannelHomeAdvertiseAdd',
     marketChannelHomeAdvertiseUpdate: 'marketChannelHomeAdvertiseUpdate',

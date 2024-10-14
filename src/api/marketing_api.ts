@@ -1,6 +1,7 @@
 import http from "../utils/http.ts";
 import {MmsHomeAdvertise} from "../model/mms_home_advertise.ts";
 import {MmsFlashPromotion, MmsFlashPromotionSession} from "../model/mms_flash_promotion.ts";
+import {MmsCouponParam} from "../model/mms_coupon.ts";
 
 export async function useFetchChannelHomeAdvertiseList(params: any) {
     return await http.get<{
@@ -165,4 +166,57 @@ export async function useFetchFlashPromotionSessionSelectList(flashPromotionId: 
         message: string,
         data: number,
     }>("marketing_api/mms/flashSession/selectList/" + flashPromotionId);
+}
+
+
+/**********优惠券接口*********************/
+export async function useFetchCouponList(params: any) {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: {
+            list: Array<MmsCouponParam>,
+            total: number,
+        },
+    }>("marketing_api/mms/coupon/list", params)
+}
+
+export async function useCreateCoupon(data: any) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("marketing_api/mms/coupon/create", data);
+}
+
+export async function useUpdateCouponStatus(id: string, status: number) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("marketing_api/mms/coupon/status/" + id + "?status=" + status);
+}
+
+export async function useDeleteCoupon(id: string) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("marketing_api/mms/coupon/delete/" + id);
+}
+
+export async function useGetCoupon(id: string) {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: MmsCouponParam,
+    }>("marketing_api/mms/coupon/" + id);
+}
+
+export async function useUpdateCoupon(id: string, data: any) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("marketing_api/mms/coupon/update/" + id, data);
 }

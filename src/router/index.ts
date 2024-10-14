@@ -243,10 +243,16 @@ export const AsyncRouterMap = [
                 meta: {title: '频道列表', icon: 'channel'},
             },
             {
-                path: 'ctChannel',
+                path: 'ctCategory',
                 name: Pages.ctCategory,
                 component: () => import('@/views/category/category/Index.vue'),
                 meta: {title: '品类列表', icon: 'category'},
+            },
+            {
+                path: 'ctTag',
+                name: Pages.ctTag,
+                component: () => import('@/views/category/tag/Index.vue'),
+                meta: {title: '标签列表', icon: 'tag'},
             },
         ]
     },
@@ -292,7 +298,7 @@ export const AsyncRouterMap = [
             {
                 path: 'coupon/list',
                 name: Pages.marketCoupon,
-                component: () => import('@/views/mms/flash/Index.vue'),
+                component: () => import('@/views/mms/coupon/Index.vue'),
                 meta: {title: '优惠券列表', icon: 'coupon'},
             },
             {

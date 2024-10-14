@@ -1,5 +1,6 @@
 import http from "../utils/http.ts";
 import {CtChannel} from "../model/ct_channel.ts";
+import {CtTag} from "../model/ct_tag.ts";
 
 
 export async function useFetchChannelList(name: string, pageSize: number, pageNum: number) {
@@ -44,4 +45,49 @@ export async function useDeleteChannel(id: string) {
         message: string,
         data: number,
     }>("category_api/ct/channel/delete/" + id)
+}
+
+/******************tag*****************/
+export async function useFetchTagList(name: string, pageSize: number, pageNum: number) {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: {
+            list: Array<CtTag>,
+            total: string,
+        },
+    }>("category_api/ct/tag/list?name=" + name + "&pageSize=" + pageSize + "&pageNum=" + pageNum)
+}
+
+export async function useFetchTagAll() {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: Array<CtTag>
+    }>("category_api/ct/tag/listAll");
+}
+
+export async function useCreateTag(data: any) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("category_api/ct/tag/create", data);
+}
+
+export async function useUpdateTag(id: string, data: any) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("category_api/ct/category/update/" + id, data);
+}
+
+
+export async function useDeleteTag(id: string) {
+    return await http.post<{
+        code: number,
+        message: string,
+        data: number,
+    }>("category_api/ct/tag/delete/" + id)
 }
