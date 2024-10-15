@@ -121,7 +121,7 @@
 <script setup lang="ts">
 import {Search} from "@element-plus/icons-vue";
 import {onMounted, ref} from "vue";
-import {useDeleteCategory, useFetchCategoryList} from "@/api/category_api.ts";
+import {useDeleteCategory, useFetchCategoryList, useUpdateNavStatus, useUpdateShowStatus} from "@/api/category_api.ts";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {useRouter} from "vue-router";
 
@@ -130,15 +130,13 @@ const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
   nameKeyword: '',
-  parentId: 0,
+  parentId: "0",
 };
 const listQuery = ref(Object.assign({}, defaultListQuery));
 const list = ref(null);
 const total = ref(0);
 const listLoading = ref(false);
 const dialogVisible = ref(false);
-const isEdit = ref(false);
-
 onMounted(() => {
   getList();
 })
@@ -164,7 +162,7 @@ const handleCurrentChange = (val: number) => {
 }
 
 const handleAdd = () => {
-  router.push({path: '/ct/ctCategory/add'})
+  router.push({path: '/ct/ctCategory/add'});
 }
 
 const handleDelete = (row) => {
@@ -185,6 +183,7 @@ const handleDelete = (row) => {
 }
 
 const handleUpdate = (row) => {
+  router.push({path: '/ct/ctCategory/update',query:{id:row.id}});
 }
 
 const levelFilter = (value) => {
@@ -205,6 +204,30 @@ const getList = () => {
     list.value = res.data.list;
     total.value = Number(res.data.total);
   })
+}
+
+const handleNavStatusChange = (row) => {
+  let ids = [];
+  ids.push(row.id);
+  useUpdateNavStatus(ids, row.navStatus).then(_ => {
+    ElMessage({
+      type: 'success',
+      message: '修改成功!',
+      duration: 1000,
+    });
+  });
+}
+
+const handleShowStatusChange = (row) => {
+  let ids = [];
+  ids.push(row.id);
+  useUpdateShowStatus(ids, row.showStatus).then(_ => {
+    ElMessage({
+      type: 'success',
+      message: '修改成功!',
+      duration: 1000,
+    });
+  });
 }
 
 

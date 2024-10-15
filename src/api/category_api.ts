@@ -1,7 +1,7 @@
 import http from "../utils/http.ts";
 import {CtChannel} from "../model/ct_channel.ts";
 import {CtTag} from "../model/ct_tag.ts";
-import {CategoryWithChildrenItem, CtCategory} from "../model/ct_category.ts";
+import {CategoryWithChildrenItem, CtCategory, CtCategoryTagRelation} from "../model/ct_category.ts";
 
 
 export async function useFetchChannelList(name: string, pageSize: number, pageNum: number) {
@@ -160,4 +160,12 @@ export async function useListWithChildren() {
         message: string,
         data: number,
     }>("category_api/ct/category/list/withChildren");
+}
+
+export async function useGetCategoryTagRelation(id: string) {
+    return await http.get<{
+        code: number,
+        message: string,
+        data: Array<CtCategoryTagRelation>,
+    }>("category_api/ct/category/getCategoryTagRelation/" + id);
 }

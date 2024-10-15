@@ -256,6 +256,13 @@ export const AsyncRouterMap = [
                 hidden: true
             },
             {
+                path: 'ctCategory/update',
+                name: Pages.ctCategoryUpdate,
+                component: () => import('@/views/category/category/Update.vue'),
+                meta: {title: '更新品类'},
+                hidden: true
+            },
+            {
                 path: 'ctTag',
                 name: Pages.ctTag,
                 component: () => import('@/views/category/tag/Index.vue'),

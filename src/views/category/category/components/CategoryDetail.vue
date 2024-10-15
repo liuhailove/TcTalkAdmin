@@ -82,7 +82,7 @@ import {
   useCreateCategory,
   useFetchCategoryList, useFetchChannelAll,
   useFetchTagAll,
-  useGetCategory,
+  useGetCategory, useGetCategoryTagRelation,
   useUpdateCategory
 } from "@/api/category_api.ts";
 import {ElMessage, ElMessageBox} from "element-plus";
@@ -147,7 +147,18 @@ onMounted(() => {
   if (props.isEdit) {
     useGetCategory(route.query.id as string).then(res => {
       category.value = res.data;
-    })
+    });
+    useGetCategoryTagRelation(route.query.id as string).then(res => {
+      if (res.data != null && res.data.length > 0) {
+        filterTagList.value = [];
+        for (let i = 0; i < res.data.length; i++) {
+          filterTagList.value.push({
+            key: Date.now() + i,
+            value: res.data[i].tagId,
+          });
+        }
+      }
+    });
   }
   getSelectCategoryList();
   getTagList();

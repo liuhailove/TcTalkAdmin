@@ -111,3 +111,19 @@ export interface CtCategory {
 export interface CategoryWithChildrenItem {
     children: Array<CategoryWithChildrenItem>;
 }
+
+export interface CtCategoryTagRelation {
+    id?: string;
+    /**
+     * 分类ID
+     */
+    categoryId: string;
+    /**
+     * 标签ID
+     */
+    tagId: string;
+    /**
+     * 标签名称
+     */
+    tagName: string;
+}
