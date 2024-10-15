@@ -44,6 +44,9 @@
         <el-table-column label="分类名称" align="center">
           <template #default="scope">{{ scope.row.name }}</template>
         </el-table-column>
+        <el-table-column label="频道名称" align="center">
+          <template #default="scope">{{ scope.row.channelName }}</template>
+        </el-table-column>
         <el-table-column label="级别" width="100" align="center">
           <template #default="scope">{{ levelFilter(scope.row.level) }}</template>
         </el-table-column>
@@ -77,7 +80,7 @@
           <template #default="scope">
             <el-button
                 size="small"
-                :disabled="scope.row.level | disableNextLevel"
+                :disabled="disableNextLevel(scope.row.level)"
                 @click="handleShowNextLevel(scope.row)">查看下级
             </el-button>
             <el-button
@@ -118,9 +121,11 @@
 <script setup lang="ts">
 import {Search} from "@element-plus/icons-vue";
 import {onMounted, ref} from "vue";
-import {useCreateCategory, useDeleteCategory, useFetchCategoryList, useUpdateCategory} from "@/api/category_api.ts";
+import {useDeleteCategory, useFetchCategoryList} from "@/api/category_api.ts";
 import {ElMessage, ElMessageBox} from "element-plus";
+import {useRouter} from "vue-router";
 
+const router = useRouter();
 const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
@@ -159,7 +164,7 @@ const handleCurrentChange = (val: number) => {
 }
 
 const handleAdd = () => {
-
+  router.push({path: '/ct/ctCategory/add'})
 }
 
 const handleDelete = (row) => {
@@ -180,6 +185,18 @@ const handleDelete = (row) => {
 }
 
 const handleUpdate = (row) => {
+}
+
+const levelFilter = (value) => {
+  if (value === 0) {
+    return '一级';
+  } else if (value === 1) {
+    return '二级';
+  }
+}
+
+const disableNextLevel = (value) => {
+  return value !== 0;
 }
 const getList = () => {
   listLoading.value = true;

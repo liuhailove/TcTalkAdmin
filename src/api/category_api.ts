@@ -138,7 +138,7 @@ export async function useGetCategory(id: string) {
     }>("category_api/ct/category/" + id);
 }
 
-export async function useUpdateNavStatus(id: Array<string>, navStatus: number) {
+export async function useUpdateNavStatus(ids: Array<string>, navStatus: number) {
     return await http.post<{
         code: number,
         message: string,
@@ -146,12 +146,12 @@ export async function useUpdateNavStatus(id: Array<string>, navStatus: number) {
     }>("category_api/ct/category/update/navStatus?ids=" + ids + "&navStatus=" + navStatus);
 }
 
-export async function useUpdateShowStatus(id: Array<string>, showStatus: number) {
+export async function useUpdateShowStatus(ids: Array<string>, showStatus: number) {
     return await http.post<{
         code: number,
         message: string,
         data: Array<CategoryWithChildrenItem>,
-    }>("category_api/ct/category/update/showStatus?ids=" + ids + "&hidden=" + showStatus);
+    }>("category_api/ct/category/update/showStatus?ids=" + ids + "&showStatus=" + showStatus);
 }
 
 export async function useListWithChildren() {

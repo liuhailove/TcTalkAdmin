@@ -249,6 +249,13 @@ export const AsyncRouterMap = [
                 meta: {title: '品类列表', icon: 'category'},
             },
             {
+                path: 'ctCategory/add',
+                name: Pages.ctCategoryAdd,
+                component: () => import('@/views/category/category/Add.vue'),
+                meta: {title: '添加品类'},
+                hidden: true
+            },
+            {
                 path: 'ctTag',
                 name: Pages.ctTag,
                 component: () => import('@/views/category/tag/Index.vue'),

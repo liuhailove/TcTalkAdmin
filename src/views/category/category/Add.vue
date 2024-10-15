@@ -1,6 +1,6 @@
 <template>
-  <channel-home-advertise-detail :is-edit="false"></channel-home-advertise-detail>
+  <category-detail :is-edit="false"></category-detail>
 </template>
 <script setup lang="ts">
-import ChannelHomeAdvertiseDetail from "@/views/mms/advertise/components/ChannelHomeAdvertiseDetail.vue";
+import CategoryDetail from "@/views/category/category/components/CategoryDetail.vue";
 </script>

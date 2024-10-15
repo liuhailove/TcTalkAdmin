@@ -30,7 +30,7 @@ export interface CtCategory {
     /**
      * 是否进行显示
      */
-    hidden: number;
+    showStatus: number;
 
     /**
      * 排序号

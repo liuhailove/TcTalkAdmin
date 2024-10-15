@@ -1,80 +1,70 @@
 <template>
   <el-card class="form-container" shadow="never">
-    <el-form :model="channelHomeAdvertise"
+    <el-form :model="category"
              :rules="rules"
-             ref="channelHomeAdvertiseForm"
+             ref="categoryForm"
              label-width="150px"
              size="small">
-      <el-form-item label="广告名称：" prop="name">
-        <el-input v-model="channelHomeAdvertise.name" class="input-width"></el-input>
+      <el-form-item label="分类名称：" prop="name">
+        <el-input v-model="category.name" class="input-width"></el-input>
       </el-form-item>
-      <el-form-item label="广告位置：">
-        <el-select v-model="channelHomeAdvertise.type">
+      <el-form-item label="上级分类：">
+        <el-select v-model="category.parentCategoryId">
           <el-option
-              v-for="type in typeOptions"
+              v-for="item in selectCategoryList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="所属频道：">
+        <el-select v-model="category.channelId">
+          <el-option
+              v-for="type in channelOptions"
               :key="type.value"
               :label="type.label"
               :value="type.value">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="投放频道：">
-        <el-select v-model="channelType" @change="handleChannelChange">
-          <el-option
-              v-for="type in channelOptions"
-              :key="type.value"
-              :label="type.label"
-              :value="type">
-          </el-option>
-        </el-select>
+      <el-form-item label="排序：">
+        <el-input v-model="category.sort"></el-input>
       </el-form-item>
-      <el-form-item label="开始时间：" prop="startTime">
-        <el-date-picker
-            type="datetime"
-            placeholder="选择日期"
-            v-model="channelHomeAdvertise.startTime"
-            format="YYYY-MM-DD HH:mm:ss"
-            value-format="YYYY-MM-DD HH:mm:ss"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="到期时间：" prop="endTime">
-        <el-date-picker
-            type="datetime"
-            placeholder="选择日期"
-            v-model="channelHomeAdvertise.endTime"
-            format="YYYY-MM-DD HH:mm:ss"
-            value-format="YYYY-MM-DD HH:mm:ss"
-        ></el-date-picker>
-      </el-form-item>
-      <el-form-item label="最大展示次数：">
-        <el-input v-model="channelHomeAdvertise.showMax" class="input-width"></el-input>
-      </el-form-item>
-      <el-form-item label="日最大展示次数：">
-        <el-input v-model="channelHomeAdvertise.dayTimes" class="input-width"></el-input>
-      </el-form-item>
-      <el-form-item label="上线/下线：">
-        <el-radio-group v-model="channelHomeAdvertise.status">
-          <el-radio :label="0">下线</el-radio>
-          <el-radio :label="1">上线</el-radio>
+      <el-form-item label="是否显示：">
+        <el-radio-group v-model="category.showStatus">
+          <el-radio :value="1">是</el-radio>
+          <el-radio :value="0">否</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="广告图片：">
-        <single-upload v-model:value="channelHomeAdvertise.pic"></single-upload>
+      <el-form-item label="是否显示在导航栏：">
+        <el-radio-group v-model="category.navStatus">
+          <el-radio :value="1">是</el-radio>
+          <el-radio :value="0">否</el-radio>
+        </el-radio-group>
       </el-form-item>
-      <el-form-item label="排序：">
-        <el-input v-model="channelHomeAdvertise.sort" class="input-width"></el-input>
+      <el-form-item label="分类图标：">
+        <single-upload v-model:value="category.icon"></single-upload>
       </el-form-item>
-      <el-form-item label="广告链接：" prop="url">
-        <el-input v-model="channelHomeAdvertise.clickUrl" class="input-width"></el-input>
+      <el-form-item v-for="(filterTag, index) in filterTagList"
+                    :label="filterLabelFilter(index)"
+                    :key="filterTag.key"
+      >
+        <el-cascader
+            clearable
+            v-model="filterTag.value"
+            :options="filterTags">
+        </el-cascader>
+        <el-button style="margin-left: 20px" @click.prevent="removeFilterTag(filterTag)">删除</el-button>
       </el-form-item>
-      <el-form-item label="广告备注：">
-        <el-input
-            class="input-width"
-            type="textarea"
-            :rows="5"
-            placeholder="请输入内容"
-            v-model="channelHomeAdvertise.note">
-        </el-input>
+      <el-form-item>
+        <el-button size="small" type="primary" @click="handleAddFilterTag()">新增</el-button>
+      </el-form-item>
+      <el-form-item label="关键词：">
+        <el-input v-model="category.keywords" class="input-width"></el-input>
+      </el-form-item>
+      <el-form-item label="分类描述：">
+        <el-input type="textarea" :autosize="true" v-model="category.remark" :rows="5"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit()">提交</el-button>
@@ -88,69 +78,126 @@
 import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import SingleUpload from "@/components/Upload/SingleUpload.vue";
-import {useFetchChannelAll} from "@/api/category_api.ts";
-import {ElMessage, ElMessageBox} from "element-plus";
 import {
-  useCreateChannelHomeAdvertise,
-  useGetChannelHomeAdvertise,
-  useUpdateChannelHomeAdvertise
-} from "@/api/marketing_api.ts";
+  useCreateCategory,
+  useFetchCategoryList, useFetchChannelAll,
+  useFetchTagAll,
+  useGetCategory,
+  useUpdateCategory
+} from "@/api/category_api.ts";
+import {ElMessage, ElMessageBox} from "element-plus";
 
 const route = useRoute();
 const router = useRouter();
 const props = defineProps<{
   isEdit: Boolean
 }>();
-const channelHomeAdvertiseForm = ref(null);
+
+const defaultCategory = {
+  channelId: null,
+  name: '',
+  parentCategoryId: null,
+  navStatus: 0,
+  showStatus: 0,
+  sort: 0,
+  icon: '',
+  ageRegionType: 0,
+  recommend: false,
+  sexPrefer: 0,
+  keywords: '',
+  remark: '',
+  enabled: false,
+  feeType: 0,
+  tagIdList: null
+}
+
+const filterTagList = ref([{key: 0, value: ''}]);
+
+const filterTags = ref([]);
+
+// 品类
+const category = ref(Object.assign({}, defaultCategory));
+
+// 品类Form
+const categoryForm = ref(null);
+
 const rules = ref({
   name: [
-    {required: true, message: '请输入广告名称', trigger: 'blur'},
+    {required: true, message: '请输入品牌名称', trigger: 'blur'},
     {min: 2, max: 140, message: '长度在 2 到 140 个字符', trigger: 'blur'}
-  ],
-  clickUrl: [
-    {required: true, message: '请输入广告链接', trigger: 'blur'}
-  ],
-  startTime: [
-    {required: true, message: '请选择开始时间', trigger: 'blur'}
-  ],
-  endTime: [
-    {required: true, message: '请选择到期时间', trigger: 'blur'}
-  ],
-  pic: [
-    {required: true, message: '请选择广告图片', trigger: 'blur'}
   ]
 });
-const defaultTypeOptions = [
-  {
-    label: 'PC首页轮播',
-    value: 0
-  },
-  {
-    label: 'APP首页轮播',
-    value: 1
+
+// 可供选择的品类列表
+const selectCategoryList = ref([]);
+
+const getSelectCategoryList = () => {
+  useFetchCategoryList("0", "", 100, 1).then(response => {
+    selectCategoryList.value = response.data.list;
+    selectCategoryList.value.unshift({id: 0, name: '无上级分类'});
+  });
+}
+
+const getSelectTagIdList = () => {
+  // 获取选中的筛选标签属性，并将其扁平化
+  return filterTagList.value.map(tag => Array.isArray(tag.value) ? tag.value[0] : tag.value);
+}
+
+onMounted(() => {
+  if (props.isEdit) {
+    useGetCategory(route.query.id as string).then(res => {
+      category.value = res.data;
+    })
   }
-];
-const typeOptions = ref(Object.assign({}, defaultTypeOptions));
-const defaultChannelHomeAdvertise = {
-  name: null,
-  type: 1,
-  pic: null,
-  startTime: null,
-  endTime: null,
-  status: 0,
-  clickUrl: null,
-  note: null,
-  sort: 0,
-  channelId: null,
-  channelName: null,
-  showMax: null,
-  dayTimes: null,
-};
-const channelType = ref({
-  value: null,
-  label: null,
-});
-const channelHomeAdvertise = ref(Object.assign({}, defaultChannelHomeAdvertise));
+  getSelectCategoryList();
+  getTagList();
+  getChannelList();
+})
+
+const filterLabelFilter = (index: number) => {
+  if (index === 0) {
+    return "筛选属性";
+  } else {
+    return "";
+  }
+}
+
+const getTagList = () => {
+  useFetchTagAll().then(response => {
+    let list = response.data;
+    for (let i = 0; i < list.length; i++) {
+      let tag = list[i];
+      filterTags.value.push({label: tag.name, value: tag.id});
+    }
+  });
+}
+
+const handleAddFilterTag = () => {
+  if (filterTagList.value.length >= 3) {
+    ElMessage({
+      type: 'warning',
+      message: '最多添加三个!',
+      duration: 1000
+    });
+    return;
+  }
+  filterTagList.value.push({key: Date.now(), value: null,});
+}
+
+const removeFilterTag = (filterTag) => {
+  if (filterTagList.value.length <= 1) {
+    ElMessage({
+      type: 'warning',
+      message: '至少要留一个!',
+      duration: 1000
+    });
+    return;
+  }
+  var index = filterTagList.value.indexOf(filterTag);
+  if (index !== -1) {
+    filterTagList.value.splice(index, 1);
+  }
+}
 const listLoading = ref(false);
 const channelOptions = ref([]);
 const getChannelList = () => {
@@ -164,26 +211,17 @@ const getChannelList = () => {
     }
   });
 }
-
-onMounted(() => {
-  getChannelList();
-  if (props.isEdit) {
-    useGetChannelHomeAdvertise(route.query.id as string).then(res => {
-      channelHomeAdvertise.value = res.data;
-    })
-  }
-})
-
 const onSubmit = () => {
-  channelHomeAdvertiseForm.value.validate((valid) => {
+  categoryForm.value.validate((valid) => {
     if (valid) {
       ElMessageBox.confirm('是否提交数据?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
       }).then(() => {
+        category.value.tagIdList = getSelectTagIdList();
         if (props.isEdit) {
-          useUpdateChannelHomeAdvertise(route.query.id as string, channelHomeAdvertise.value).then(() => {
+          useUpdateCategory(route.query.id as string, category.value).then(() => {
             ElMessage({
               type: 'success',
               message: '修改成功!',
@@ -192,9 +230,9 @@ const onSubmit = () => {
           });
           router.back();
         } else {
-          useCreateChannelHomeAdvertise(channelHomeAdvertise.value).then(() => {
-            channelHomeAdvertiseForm.value.resetFields();
-            channelHomeAdvertise.value = Object.assign({}, defaultChannelHomeAdvertise);
+          useCreateCategory(category.value).then(() => {
+            categoryForm.value.resetFields();
+            category.value = Object.assign({}, defaultCategory);
             ElMessage({
               type: 'success',
               message: '提交成功!',
@@ -215,17 +253,8 @@ const onSubmit = () => {
 }
 
 const resetForm = () => {
-  channelHomeAdvertiseForm.value.resetFields();
-  channelHomeAdvertise.value = Object.assign({}, defaultChannelHomeAdvertise);
-}
-
-const handleChannelChange = (selectedChannelType) => {
-  channelType.value = {
-    value: selectedChannelType.value,
-    label: selectedChannelType.label,
-  };
-  channelHomeAdvertise.value.channelId = selectedChannelType.value;
-  channelHomeAdvertise.value.channelName = selectedChannelType.label;
+  categoryForm.value.resetFields();
+  category.value = Object.assign({}, defaultCategory);
 }
 
 </script>
