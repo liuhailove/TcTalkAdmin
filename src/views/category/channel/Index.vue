@@ -22,8 +22,8 @@
       </div>
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-          <el-form-item label="渠道名称：">
-            <el-input v-model="listQuery.nameKeyword" class="input-width" placeholder="渠道名称" clearable></el-input>
+          <el-form-item label="频道名称：">
+            <el-input v-model="listQuery.nameKeyword" class="input-width" placeholder="频道名称" clearable></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -41,10 +41,10 @@
         <el-table-column label="编号" width="180" align="center">
           <template #default="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="渠道名称" align="center">
+        <el-table-column label="频道名称" align="center">
           <template #default="scope">{{ scope.row.name }}</template>
         </el-table-column>
-        <el-table-column label="渠道路径" align="center">
+        <el-table-column label="频道路径" align="center">
           <template #default="scope">{{ scope.row.urlPath }}</template>
         </el-table-column>
         <el-table-column label="排序" align="center">
